@@ -1,28 +1,81 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <app-navbar />
+    <app-main />
+    <app-footer />
+    <v-tooltip left>
+      <template v-slot:activator="{on }">
+      
+      <v-btn
+        color="#04b4d4"
+        dark
+        fab
+        fixed
+        class="add-recipe"
+        @click="addRecipe"
+        v-on="on"
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+      </template>
+      <span>Add Recipe</span>
+    </v-tooltip>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import AppNavbar from "./components/layout/Navbar";
+import AppMain from "./components/layout/Main";
+import AppFooter from "./components/layout/Footer";
 export default {
-  name: 'App',
+  name: "RecipesWebsite",
   components: {
-    HelloWorld
+    AppNavbar,
+    AppMain,
+    AppFooter
+  },
+  data() {
+    return {
+      routeName: this.$route.name,
+      isAuthenticated: false
+    };
+  },
+  watch: {
+    "$route.name": {
+      handler(routeName) {
+        this.routeName = routeName;
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    addRecipe() {
+      if (!this.isAuthenticated) {
+        this.$router.push("/accounts/login");
+      } else {
+        this.$router.push("/recipes/new");
+      }
+    }
   }
-}
+};
 </script>
-
-<style>
+<style lang="scss">
+@import "./scss/style";
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: $primary-font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $body-color;
+  letter-spacing: 1px;
+}
+html {
+  overflow: hidden;
+}
+.add-recipe {
+  top: 89vh;
 }
 </style>
