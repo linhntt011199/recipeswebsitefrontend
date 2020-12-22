@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <router-link to="/">
+    <router-link to="">
       <img
         :src="require('@/assets/logo.jpg')"
         alt="RecipesWebsite"

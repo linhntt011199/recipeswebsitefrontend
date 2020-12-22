@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <app-navbar />
+    <app-navbar v-show="!displayNavAndFooter" />
     <app-main />
-    <app-footer />
+    <app-footer v-show="!displayNavAndFooter" />
     <v-tooltip left>
       <template v-slot:activator="{on }">
       
@@ -11,6 +11,8 @@
         dark
         fab
         fixed
+        right
+        v-show="!displayNavAndFooter"
         class="add-recipe"
         @click="addRecipe"
         v-on="on"
@@ -49,10 +51,15 @@ export default {
       immediate: true
     }
   },
+  computed: {
+    displayNavAndFooter() {
+      return this.routeName === "register" || this.routeName === "login";
+    }
+  },
   methods: {
     addRecipe() {
       if (!this.isAuthenticated) {
-        this.$router.push("/accounts/login");
+        this.$router.push("/auth/login");
       } else {
         this.$router.push("/recipes/new");
       }
