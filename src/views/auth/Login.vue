@@ -3,7 +3,7 @@
     <h2 class="heading">Login to Account</h2>
     <v-card class="mx-auto login-card">
       <div class="login-card-info">
-        <router-link to="">
+        <router-link to="/">
           <img
             :src="require('@/assets/logo.jpg')"
             alt="Recipes Website"
@@ -11,9 +11,6 @@
           />
         </router-link>
         <p class="info-msg">Log in to see your favorited and saved recipes</p>
-        <p class="info-back info-back--large">
-          Back to <router-link to="/" class="info-link">Home</router-link>
-        </p>
       </div>
       <div class="login-card-form">
         <login-form />
@@ -107,6 +104,7 @@ export default {
   &-msg {
     color: $white;
     margin-top: 1rem;
+    margin-bottom: 0;
   }
   &-link {
     color: $app-color;

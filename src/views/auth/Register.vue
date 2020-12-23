@@ -3,7 +3,7 @@
     <h2 class="heading">Create Account</h2>
     <v-card class="mx-auto register-card">
       <div class="register-card-info">
-        <router-link to="">
+        <router-link to="/">
           <img
             :src="require('@/assets/logo.jpg')"
             alt="Recipes Website"
