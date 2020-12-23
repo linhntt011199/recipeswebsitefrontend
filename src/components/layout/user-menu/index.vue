@@ -81,13 +81,19 @@
 </template>
 
 <script>
+// import { mapActions } from "vuex";
+
 export default {
   name: "profile-menu",
-  data() {
-    return {
-      isAuthenticated: false,
-      currentUser: null
-    };
+  // 
+  props: {
+    isAuthenticated: {
+      type: Boolean,
+      required: true
+    },
+    currentUser: {
+      type: Object
+    }
   },
   methods: {
     navigateTo() {
@@ -99,9 +105,20 @@ export default {
       //     recipes
       //   }
       // });
+    // ...mapActions({ logout: "auth/logout" }),
+    // navigateTo(recipes) {
+    //   this.$router.push({
+    //     name: "profile",
+    //     params: {
+    //       userId: this.currentUser.id,
+    //       fullname: this.currentUser.fullname,
+    //       recipes
+        // }
+      // });
     },
     logoutUser() {
       // this.logout({ router: this.$router });
+      this.logout({ router: this.$router });
     }
   }
 };

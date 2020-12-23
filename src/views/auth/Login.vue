@@ -31,12 +31,12 @@
 
 <script>
 import LoginForm from "@/components/forms/auth/Login";
-//import SocialLogin from "@/components/auth/SocialLogin";
+import SocialLogin from "@/components/auth/socialLogin";
 export default {
   name: "login-page",
   components: {
     LoginForm,
-    //SocialLogin
+    SocialLogin
   }
 };
 </script>
