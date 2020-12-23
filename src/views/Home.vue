@@ -24,7 +24,7 @@
 
 <script>
 // @ is an alias to /src
-import { mapGetters, mapActions} from "vuex";
+// import { mapGetters, mapActions} from "vuex";
 import Spinner from "@/components/shared/Spinner";
 export default {
   name: "home-page",
