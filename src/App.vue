@@ -82,6 +82,13 @@ export default {
 html {
   overflow: hidden;
 }
+
+a {
+  text-decoration: none;
+}
+p {
+  margin: 0;
+}
 .add-recipe {
   top: 89vh;
 }
