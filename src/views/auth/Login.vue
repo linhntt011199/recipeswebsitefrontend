@@ -11,6 +11,9 @@
           />
         </router-link>
         <p class="info-msg">Log in to see your favorited and saved recipes</p>
+        <p class="info-back info-back--large">
+          Back to <router-link to="/" class="info-link">Home</router-link>
+        </p>
       </div>
       <div class="login-card-form">
         <login-form />
