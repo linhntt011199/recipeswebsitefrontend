@@ -26,10 +26,18 @@
 // @ is an alias to /src
 // import { mapGetters, mapActions} from "vuex";
 import Spinner from "@/components/shared/Spinner";
+import RecipeOfTheDay from "@/components/home/RecipeOfTheDay";
+import NewestAdditions from "@/components/home/NewestAdditions";
+import RecipeTypes from "@/components/home/RecipeTypes";
+import HighestRatedRecipes from "@/components/home/HighestRatedRecipes";
 export default {
   name: "home-page",
   components: {
     Spinner,
+    RecipeOfTheDay,
+    NewestAdditions,
+    RecipeTypes,
+    HighestRatedRecipes
   },
 
   data() {
