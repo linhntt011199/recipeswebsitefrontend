@@ -11,11 +11,14 @@
 
     <v-text-field
       v-model.trim="password"
+      :type="showPassword ? 'text' : 'password'"
+      :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
       :error-messages="passwordErrors"
       label="Password"
       required
       @input="$v.password.$touch()"
       @blur="$v.password.$touch()"
+      @click:append="showPassword = !showPassword"
     ></v-text-field>
 
     <v-btn type="submit" class="mr-4 button" color="#04b4d4">submit</v-btn>
@@ -25,6 +28,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
+//import {axios} from "axios";
 export default {
   name: "login-form",
   mixins: [validationMixin],
@@ -40,7 +44,8 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      showPassword: false
     };
   },
   computed: {
