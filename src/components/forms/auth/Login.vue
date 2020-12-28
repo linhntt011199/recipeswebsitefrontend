@@ -11,24 +11,21 @@
 
     <v-text-field
       v-model.trim="password"
-      :type="showPassword ? 'text' : 'password'"
-      :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
       :error-messages="passwordErrors"
       label="Password"
       required
       @input="$v.password.$touch()"
       @blur="$v.password.$touch()"
-      @click:append="showPassword = !showPassword"
     ></v-text-field>
 
-    <v-btn type="submit" class="mr-4 button" color="#04b4d4">submit</v-btn>
+    <v-btn type="submit" class="mr-4 button" color="#04b4d4" @click="authenticate">submit</v-btn>
   </form>
 </template>
 
 <script>
+import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
-//import {axios} from "axios";
 export default {
   name: "login-form",
   mixins: [validationMixin],
@@ -44,8 +41,7 @@ export default {
   data() {
     return {
       email: "",
-      password: "",
-      showPassword: false
+      password: ""
     };
   },
   computed: {
@@ -71,6 +67,19 @@ export default {
       this.$v.$reset();
       this.email = "";
       this.password = "";
+    },
+    authenticate() {
+      axios
+        .post("http://localhost:3000/authenticate", {
+          email: this.email,
+          password: this.password
+        })
+        .then(response => {
+          this.$store.commit('setToken', response.data.auth_token);
+          this.$store.commit('setUser', response.data.user);
+          this.$router.push('/');
+        })
+        .catch(error => this.$store.commit('setErrors', error.response.data.errors));
     }
   }
 };

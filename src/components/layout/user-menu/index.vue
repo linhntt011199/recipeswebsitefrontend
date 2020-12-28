@@ -3,14 +3,13 @@
     <div v-if="isAuthenticated">
       <v-subheader class="menu-subheader">Recipes</v-subheader>
       <v-list-item-group>
-        <v-list-item class="menu-item" @click="navigateTo('all')">
+        <v-list-item class="menu-item">
           <router-link
             :to="{
               name: 'profile',
               params: {
-                userId: currentUser.id,
-                fullname: currentUser.fullname,
-                recipes: 'all'
+                userId: userId,
+                name: userName,
               },
               hash: '#uploaded-recipes'
             }"
@@ -18,14 +17,13 @@
             >My Recipes</router-link
           >
         </v-list-item>
-        <v-list-item class="menu-item" @click="navigateTo('rated')">
+        <v-list-item class="menu-item">
           <router-link
             :to="{
               name: 'profile',
               params: {
-                userId: currentUser.id,
-                fullname: currentUser.fullname,
-                recipes: 'favorited'
+                userId: userId,
+                name: userName,
               },
               hash: '#favorited-recipes'
             }"
@@ -33,14 +31,13 @@
             >Favorite Recipes</router-link
           >
         </v-list-item>
-        <v-list-item class="menu-item" @click="navigateTo('saved')">
+        <v-list-item class="menu-item">
           <router-link
             :to="{
               name: 'profile',
               params: {
-                userId: currentUser.id,
-                fullname: currentUser.fullname,
-                recipes: 'saved'
+                userId: userId,
+                name: userName,
               },
               hash: '#saved-recipes'
             }"
@@ -72,7 +69,7 @@
       <v-list-item
         v-show="isAuthenticated"
         class="menu-item"
-        @click="logoutUser"
+        @click="logout"
       >
         <span class="menu-link">Logout</span>
       </v-list-item>
@@ -85,7 +82,26 @@
 
 export default {
   name: "profile-menu",
-  // 
+  // data() {
+  //   return {
+  //     isAuthenticated: false,
+  //     currentUser: null
+  //   };
+  // },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+    userId() {
+      return this.$store.getters.getUserId;
+    },
+    userName() {
+      return this.$store.getters.getUserName;
+    },
+    getErrors() {
+      return this.$store.getters.getErrors;
+    }
+  },
   props: {
     isAuthenticated: {
       type: Boolean,
@@ -96,29 +112,19 @@ export default {
     }
   },
   methods: {
-    navigateTo() {
+    // navigateTo() {
       // this.$router.push({
       //   name: "profile",
       //   params: {
-      //     userId: this.currentUser.id,
-      //     fullname: this.currentUser.fullname,
-      //     recipes
+      //     userId: this.userId,
+      //     name: this.userName,
+      //     // recipes
       //   }
       // });
-    // ...mapActions({ logout: "auth/logout" }),
-    // navigateTo(recipes) {
-    //   this.$router.push({
-    //     name: "profile",
-    //     params: {
-    //       userId: this.currentUser.id,
-    //       fullname: this.currentUser.fullname,
-    //       recipes
-        // }
-      // });
-    },
-    logoutUser() {
-      // this.logout({ router: this.$router });
-      this.logout({ router: this.$router });
+    // },
+    logout() {
+      this.$store.commit('logout');
+      this.$router.push('/');
     }
   }
 };
