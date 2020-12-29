@@ -54,6 +54,7 @@
       @click:append="showConfirmPassword = !showConfirmPassword"
     ></v-text-field>
 
+    <v-btn type="submit" class="mr-4 button" color="#04b4d4" @click="register">submit</v-btn>
     <!-- <v-btn type="submit" class="mr-4 button" color="#04b4d4">submit</v-btn> -->
     <p v-show="error" class="error-message">{{ error }}</p>
 
@@ -69,6 +70,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import {
@@ -172,7 +174,23 @@ export default {
       this.password = "";
       this.confirmPassword = "";
     },
-     async submitForm() {
+    register() {
+      axios({
+        method: "post",
+        url: "http://localhost:3000/api/v1/users",
+        headers: { Authorization: this.$store.getters.getToken },
+        data: {
+          fullname: this.fullname,
+          name: this.username,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.confirmPassword
+        }
+      })
+        .then(() => this.$router.push("/login"))
+        .catch(error => this.$store.commit('setErrors', error.response.data.errors));
+    },
+    async submitForm() {
       this.$v.$touch();
       this.isLoading = true;
       try {

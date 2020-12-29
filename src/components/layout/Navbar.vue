@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <router-link to="">
+    <router-link to="/">
       <img
         :src="require('@/assets/logo.jpg')"
         alt="RecipesWebsite"
@@ -18,13 +18,13 @@
         <template v-slot:activator="{ on }">
           <div v-on="on" class="user-menu">
             <img
-              v-if="currentUser"
-              :src="currentUser.imageUrl || require('@/assets/images/user.png')"
-              alt="currentUser.fullname"
+              v-if="userName"
+              :src="require('@/assets/images/user.png')"
+              alt="userName"
               class="user-menu-image"
             />
             <span class="user-menu-name">{{
-              currentUser ? currentUser.fullname : "Profile"
+              isAuthenticated ? userName : "Profile"
             }}</span>
             <v-icon color="#04b4d4" class="user-menu-icon">
               mdi-chevron-down
@@ -45,16 +45,19 @@ import { mapGetters } from "vuex";
 import UserMenu from "./user-menu";
 export default {
   name: "app-navbar",
-  // data() {
-  //   return {
-  //     isAuthenticated: false,
-  //     currentUser: null
-  //   };
   computed: {
-    ...mapGetters({
-      isAuthenticated: "auth/isAuthenticated",
-      currentUser: "users/currentUser"
-    })
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+    userId() {
+      return this.$store.getters.getUserId;
+    },
+    userName() {
+      return this.$store.getters.getUserName;
+    },
+    getErrors() {
+      return this.$store.getters.getErrors;
+    }
   },
   components: {
     UserMenu
