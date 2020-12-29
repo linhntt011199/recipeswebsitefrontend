@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+//import { mapGetters } from "vuex";
 import UserMenu from "./user-menu";
 export default {
   name: "app-navbar",

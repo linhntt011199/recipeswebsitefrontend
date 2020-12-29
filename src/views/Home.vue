@@ -106,7 +106,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/styles/custom/style";
+//@import "../assets/styles/custom/style";
 @import "../scss/style";
 
 .home-page {

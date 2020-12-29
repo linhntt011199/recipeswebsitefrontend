@@ -103,10 +103,10 @@ export default {
     }
   },
   props: {
-    isAuthenticated: {
-      type: Boolean,
-      required: true
-    },
+    // isAuthenticated: {
+    //   type: Boolean,
+    //   required: true
+    // },
     currentUser: {
       type: Object
     }

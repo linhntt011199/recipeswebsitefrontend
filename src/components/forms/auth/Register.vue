@@ -58,20 +58,20 @@
     <!-- <v-btn type="submit" class="mr-4 button" color="#04b4d4">submit</v-btn> -->
     <p v-show="error" class="error-message">{{ error }}</p>
 
-    <v-btn
+    <!-- <v-btn
       type="submit"
       class="mr-4 button"
       color="#04b4d4"
       :disabled="isLoading"
       :loading="isLoading"
-      >register</v-btn
-    >
+      >register</v-btn 
+    > -->
   </form>
 </template>
 
 <script>
 import axios from "axios";
-import { mapActions } from "vuex";
+//import { mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -165,7 +165,7 @@ export default {
     //   this.$v.$touch();
     // },
     // clear() {
-    ...mapActions({ register: "auth/register" }),
+    //...mapActions({ register: "auth/register" }),
     clearForm() {
       this.$v.$reset();
       this.fullname = "";
