@@ -90,8 +90,8 @@ export default {
   color: $app-secondary-color;
   margin: 1rem 0;
 }
-.recipes {
-}
+// .recipes {
+// }
 .recipe {
   padding: 0 0 1rem 0;
   @include smallDevices {
