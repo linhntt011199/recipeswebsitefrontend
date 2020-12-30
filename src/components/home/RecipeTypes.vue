@@ -6,7 +6,6 @@
         <v-slide-item
           v-for="(recipeType, index) in recipeTypes"
           :key="index"
-          v-slot:default="{ active, toggle }"
         >
           <router-link
             :to="`/recipes/${recipeType.path}`"
@@ -24,7 +23,7 @@
             />
             <figcaption class="recipe-name">
               {{ recipeType.name }}
-            </figcaption>
+            </figcaption> 
           </router-link>
         </v-slide-item>
       </v-slide-group>
@@ -33,7 +32,7 @@
 </template>
 
 <script>
-import { recipeTypeList } from "@/helpers";
+import { recipeTypeList } from "../../helpers";
 export default {
   name: "recipe-types",
   data() {
@@ -55,7 +54,7 @@ export default {
 .recipe {
   &-types {
     margin: 1rem 0;
-    display: none;
+    //display: none;
     &-thumbnails {
       display: grid;
       grid-template-columns: repeat(2, 1fr);

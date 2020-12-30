@@ -22,26 +22,16 @@
           </div>
           <!-- <div class="recipe-of-the-day-and-new-additions">
             <recipe-of-the-day :recipe-of-the-day="getRandomRecipe(recipeList)" />
-            <newest-additions :recipeList="recipeList" />
-          </div> -->
+            <newest-additions/>
+          </div>
+          <v-divider class="divider" />
+          <recipe-types />
+          <v-divider class="divider" />
+          <highest-rated-recipes />
+          <v-divider class="divider" />
+          <most-viewed-recipes :recipe-list="recipeList" />  -->
         </div>
-      </div>
-      <!-- <div v-else>
-        <div class="home">
-          <HelloWorld msg="Welcome to Your Vue.js App" />
-        </div> -->
-        <!-- <div class="recipe-of-the-day-and-new-additions">
-          <recipe-of-the-day :recipe-of-the-day="getRandomRecipe(recipeList)" />
-          <newest-additions :recipe-list="recipeList" />
-        </div>
-        <v-divider class="divider" />
-        <recipe-types />
-        <v-divider class="divider" />
-        <highest-rated-recipes :recipe-list="recipeList" />
-        <v-divider class="divider" />
-        <most-viewed-recipes :recipe-list="recipeList" /> -->
-      <!-- </div> -->
-    <!-- </div> -->
+    </div>
   </div>
 </template>
 
@@ -50,20 +40,19 @@
 // import { mapGetters, mapActions} from "vuex";
 import Spinner from "@/components/shared/Spinner";
 import axios from "axios";
-import moment from "moment";
-// import RecipeOfTheDay from '../components/home/RecipeOfTheDay.vue';
-// import NewestAdditions from "../components/home/NewestAdditions.vue";
-// import RecipeTypes from "@/components/home/RecipeTypes";
-// import HighestRatedRecipes from "@/components/home/HighestRatedRecipes";
+import RecipeOfTheDay from '../components/home/RecipeOfTheDay.vue';
+import NewestAdditions from '../components/home/NewestAdditions.vue';
+import RecipeTypes from '../components/home/RecipeTypes.vue';
+import HighestRatedRecipes from '../components/home/HighestRatedRecipes.vue';
 export default {
   name: "home-page",
 
   components: {
     Spinner,
-    // RecipeOfTheDay,
-    // NewestAdditions,
-    // RecipeTypes,
-    // HighestRatedRecipes
+    RecipeOfTheDay,
+    NewestAdditions,
+    RecipeTypes,
+    HighestRatedRecipes
   },
 
   data() {
@@ -71,7 +60,6 @@ export default {
       recipeList: [],
       isLoading: false,
       error: null,
-      scrolled: false
     };
   },
 
@@ -150,13 +138,4 @@ export default {
   display: flex;
   margin-bottom: 2rem;
 }
-
-
-// .recipe-types {
-//   display: none;s
-
-//   @include mediumDevices {
-//     display: block;
-//   }
-// }
 </style>
