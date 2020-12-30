@@ -1,5 +1,10 @@
 <template>
   <v-app>
+    <v-card
+      v-scroll.self="onScroll"
+      class="overflow-y-auto"
+      max-height="650"
+    >
     <app-navbar v-show="!displayNavAndFooter" />
     <app-main />
     <app-footer v-show="!displayNavAndFooter" />
@@ -22,6 +27,9 @@
       </template>
       <span>Add Recipe</span>
     </v-tooltip>
+    <!-- </div>
+  </div> -->
+    </v-card>
   </v-app>
 </template>
 

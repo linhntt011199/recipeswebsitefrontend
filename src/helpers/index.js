@@ -55,14 +55,14 @@ export function validateEmail(email) {
   ];
   export const sortMethods = {
     byNewest: (a, b) => {
-      a = new Date(a.addedAt);
-      b = new Date(b.addedAt);
+      a = new Date(a.created_at);
+      b = new Date(b.created_at);
   
       return a > b ? -1 : a < b ? 1 : 0;
     },
     byOldest: (a, b) => {
-      a = new Date(a.addedAt);
-      b = new Date(b.addedAt);
+      a = new Date(a.created_at);
+      b = new Date(b.created_at);
   
       return b > a ? -1 : b < a ? 1 : 0;
     },

@@ -14,13 +14,13 @@
               <router-link
                 :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`"
                 class="recipe-name-link"
-                >{{ recipe.name }}</router-link
+                >{{ recipe.title }}</router-link
               >
             </p>
           </div>
           <div class="recipe-col recipe-col--img">
             <router-link :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`">
-              <img :src="recipe.imageUrl" :alt="recipe.name" class="image" />
+              <img :src="recipe.image" :alt="recipe.title" class="image" />
             </router-link>
           </div>
         </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { sortMethods } from "@/helpers";
+import { sortMethods } from "../../helpers";
 export default {
   name: "newest-additions",
   props: {

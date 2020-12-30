@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     auth_token: localStorage.getItem('token') || '',
     user: {},
+    recipeList: [],
     errors: ''
   },
 
@@ -30,6 +31,10 @@ export default new Vuex.Store({
       state.user = {};
       localStorage.removeItem('auth_token');
       localStorage.removeItem('user');
+    },
+    setRecipeList(state, recipeList) {
+      state.recipeList = recipeList;
+      localStorage.setItem('recipeList', recipeList);
     }
   },
 
@@ -55,6 +60,9 @@ export default new Vuex.Store({
 
     getErrors(state) {
       return state.errors;
+    },
+    recipeList (state) {
+      return state.recipeList;
     }
   },
   actions : {
