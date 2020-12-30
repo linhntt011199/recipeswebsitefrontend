@@ -11,17 +11,18 @@
               >
             </h4>
             <p class="recipe-name">
-              <router-link
+              <!-- <router-link
                 :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`"
                 class="recipe-name-link"
                 >{{ recipe.title }}</router-link
-              >
+              > -->
+              {{recipe.title}}
             </p>
           </div>
           <div class="recipe-col recipe-col--img">
-            <router-link :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`">
+            <!-- <router-link :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`"> -->
               <img :src="recipe.image" :alt="recipe.title" class="image" />
-            </router-link>
+            <!-- </router-link> -->
           </div>
         </div>
       </v-flex>
@@ -31,17 +32,25 @@
 
 <script>
 import { sortMethods } from "../../helpers";
+import axios from "axios";
 export default {
   name: "newest-additions",
-  props: {
-    recipeList: {
-      type: Array,
-      required: true
-    }
+  // props: {
+  //   recipeList: {
+  //     type: Array,
+  //     required: true
+  //   }
+  // },
+  data() {
+    return {
+      recipeList: [],
+      isLoading: false,
+      error: null,
+    };
   },
   computed: {
     latestRecipes() {
-      return [...this.recipeList].sort(sortMethods.byNewest).slice(0, 5);
+      return [...this.recipeList].sort(sortMethods.byNewest).slice(0, 4);
     }
   },
   methods: {
@@ -50,7 +59,31 @@ export default {
       const recipeType = encodeURI(recipeTypes[index]);
       return `/recipes/${recipeType}/${recipeId}`;
     }
+  },
+  async created() {
+    if (this.recipeList.length === 0) {
+      this.isLoading = true;
+
+      try {
+        await axios.get("http://localhost:3000/api/v1/recipes", {
+          headers: { Authorization: this.$store.getters.getToken }
+        })
+        .then(response => this.recipeList = response.data) 
+        // {
+        //   this.$store.commit('setToken', response.data.auth_token);
+        //   this.$store.commit('setRecipeList', response.data.recipeList);
+
+        // })
+        .catch(e => e);
+
+        this.isLoading = false;
+      } catch (error) {
+        this.error = error;
+        this.isLoading = false;
+      }
+    }
   }
+  
 };
 </script>
 

@@ -7,10 +7,6 @@
     />
     <p class="recipe-title">Recipe of the day</p>
     <p class="recipe-name">{{ recipeOfTheDay.title }}</p>
-    <p class="recipe-name">{{ recipeOfTheDay.title }}</p>
-    <p class="recipe-name">{{ recipeOfTheDay.title }}</p>
-    <p class="recipe-name">{{ recipeOfTheDay.title }}</p>
-    <p class="recipe-name">{{ recipeOfTheDay.title }}</p>
     <div class="recipe-added-by">
       <span>by</span>
       <router-link
@@ -18,7 +14,7 @@
           name: 'profile',
           params: {
             userId: recipeOfTheDay.userId,
-            // fullname: recipeOfTheDay.addedBy.fullname
+            fullname: recipeOfTheDay.full_name
           }
         }"
         class="recipe-added-by-link"
