@@ -9,17 +9,21 @@
         </div>
         <div v-else class="home-content">
           <!-- Edit from here -->
-          <!-- <div class="columns" v-for="recipe in recipeList" :key="recipe.id">
+          <div class="columns" v-for="recipe in recipeList" :key="recipe.id">
               <div class="title is-4 has-text-centered">
                 <div class="has-text-weight-semibold">
-                  {{ recipe.title}}
+                  {{ recipe.title }}
                 </div>
+                <div class="has-text-weight-semibold"> Added by
+                  {{ recipe.user_name }} || {{ recipe.created_at | moment("from") }}.
+                </div>
+                <br>
               </div>
-          </div> -->
-          <div class="recipe-of-the-day-and-new-additions">
+          </div>
+          <!-- <div class="recipe-of-the-day-and-new-additions">
             <recipe-of-the-day :recipe-of-the-day="getRandomRecipe(recipeList)" />
             <newest-additions :recipeList="recipeList" />
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- <div v-else>
@@ -46,8 +50,9 @@
 // import { mapGetters, mapActions} from "vuex";
 import Spinner from "@/components/shared/Spinner";
 import axios from "axios";
-import RecipeOfTheDay from '../components/home/RecipeOfTheDay.vue';
-import NewestAdditions from "../components/home/NewestAdditions.vue";
+import moment from "moment";
+// import RecipeOfTheDay from '../components/home/RecipeOfTheDay.vue';
+// import NewestAdditions from "../components/home/NewestAdditions.vue";
 // import RecipeTypes from "@/components/home/RecipeTypes";
 // import HighestRatedRecipes from "@/components/home/HighestRatedRecipes";
 export default {
@@ -55,8 +60,8 @@ export default {
 
   components: {
     Spinner,
-    RecipeOfTheDay,
-    NewestAdditions,
+    // RecipeOfTheDay,
+    // NewestAdditions,
     // RecipeTypes,
     // HighestRatedRecipes
   },
@@ -77,6 +82,12 @@ export default {
     // recipeList () {
     //   return this.$store.getters.recipeList;
     // }
+  },
+
+  filters: {
+    moment: function (date) {
+      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+    }
   },
 
   methods: {

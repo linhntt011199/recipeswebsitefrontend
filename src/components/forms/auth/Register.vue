@@ -168,47 +168,54 @@ export default {
     //...mapActions({ register: "auth/register" }),
     clearForm() {
       this.$v.$reset();
-      this.fullname = "";
+      this.full_name = "";
       this.username = "";
       this.email = "";
       this.password = "";
       this.confirmPassword = "";
     },
     register() {
-      axios({
-        method: "post",
-        url: "http://localhost:3000/api/v1/users",
-        headers: { Authorization: this.$store.getters.getToken },
-        data: {
-          fullname: this.fullname,
+      this.$v.$touch();
+      this.isLoading = true;
+      axios
+        .post("http://localhost:3000/api/v1/users", {
+          full_name: this.fullname,
           name: this.username,
           email: this.email,
           password: this.password,
           password_confirmation: this.confirmPassword
-        }
-      })
-        .then(() => this.$router.push("/login"))
-        .catch(error => this.$store.commit('setErrors', error.response.data.errors));
-    },
-    async submitForm() {
-      this.$v.$touch();
-      this.isLoading = true;
-      try {
-        await this.register({
-          fullname: this.fullname,
-          username: this.username,
-          email: this.email,
-          password: this.password,
-          router: this.$router
+        })
+        .then(() => {
+          this.clearForm();
+          this.isLoading = false;
+          this.error = null;
+          this.$router.push("/auth/login");
+        })
+        .catch(error => {
+          this.$store.commit('setErrors', error.response.data.errors);
+          this.error = error;
+          this.isLoading = false;
         });
-        this.clearForm();
-        this.isLoading = false;
-        this.error = null;
-      } catch (error) {
-        this.error = error;
-        this.isLoading = false;
-      }
-     }
+    },
+    // async submitForm() {
+    //   this.$v.$touch();
+    //   this.isLoading = true;
+    //   try {
+    //     await this.register({
+    //       fullname: this.fullname,
+    //       username: this.username,
+    //       email: this.email,
+    //       password: this.password,
+    //       router: this.$router
+    //     });
+    //     this.clearForm();
+    //     this.isLoading = false;
+    //     this.error = null;
+    //   } catch (error) {
+    //     this.error = error;
+    //     this.isLoading = false;
+    //   }
+    //  }
   }
 };
 </script>
