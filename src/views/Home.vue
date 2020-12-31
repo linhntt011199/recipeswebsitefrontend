@@ -44,7 +44,7 @@ import RecipeOfTheDay from '../components/home/RecipeOfTheDay.vue';
 import NewestAdditions from '../components/home/NewestAdditions.vue';
 import RecipeTypes from '../components/home/RecipeTypes.vue';
 import HighestRatedRecipes from '../components/home/HighestRatedRecipes.vue';
-import MostViewedRecipes from '../components/home/MostViewedRecipes.vues';
+import MostViewedRecipes from '../components/home/MostViewedRecipes.vue';
 export default {
   name: "home-page",
 

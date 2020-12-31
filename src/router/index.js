@@ -6,36 +6,56 @@ import Home from "../views/Home.vue";
 Vue.use(VueRouter);
 //Vue.use(Vuebar);
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/auth/register",
-    name: "register",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "register" */ "../views/auth/Register.vue")
-  },
-  {
-    path: "/auth/login",
-    name: "login",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "register" */ "../views/auth/Login.vue")
-  }
+const routes = [{
+        path: "/",
+        name: "Home",
+        component: Home
+    },
+    {
+        path: "/auth/register",
+        name: "register",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import ( /* webpackChunkName: "register" */ "../views/auth/Register.vue")
+    },
+    {
+        path: "/auth/login",
+        name: "login",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import ( /* webpackChunkName: "register" */ "../views/auth/Login.vue")
+    },
+    {
+        path: "/recipes/new",
+        name: "add-recipe",
+        component: () =>
+            import (
+                /* webpackChunkName: "add-recipe" */
+                "../views/recipes/NewRecipe.vue"
+            ),
+        // meta: {
+        //     title: "Add Your Recipe - Tasties",
+        //     metaTags: [{
+        //             name: "description",
+        //             content: "The add new recipe page of Tasties"
+        //         },
+        //         {
+        //             property: "og:description",
+        //             content: "The add new recipe page of Tasties"
+        //         }
+        //     ]
+        // }
+    }
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes
 });
 
 export default router;

@@ -78,7 +78,7 @@ export default {
     padding: 0 3.5rem;
   }
   @include largeDevices {
-    padding: 0 5rem;
+    padding: 0 8.5rem;
   }
 }
 .app-logo {
@@ -106,13 +106,12 @@ export default {
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-right: 0.35rem;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    color: $app-color;
+    color: $app-main-color;
   }
   &-icon {
-    margin-top: -0.25rem;
-    margin-bottom: -0.125rem;
+    font-size: 1.25rem;
   }
   &-list {
     border-radius: 0;
