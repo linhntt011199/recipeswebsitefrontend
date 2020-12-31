@@ -54,22 +54,24 @@
       @click:append="showConfirmPassword = !showConfirmPassword"
     ></v-text-field>
 
+    <v-btn type="submit" class="mr-4 button" color="#04b4d4" @click="register">submit</v-btn>
     <!-- <v-btn type="submit" class="mr-4 button" color="#04b4d4">submit</v-btn> -->
     <p v-show="error" class="error-message">{{ error }}</p>
 
-    <v-btn
+    <!-- <v-btn
       type="submit"
       class="mr-4 button"
       color="#04b4d4"
       :disabled="isLoading"
       :loading="isLoading"
-      >register</v-btn
-    >
+      >register</v-btn 
+    > -->
   </form>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import axios from "axios";
+//import { mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -163,34 +165,57 @@ export default {
     //   this.$v.$touch();
     // },
     // clear() {
-    ...mapActions({ register: "auth/register" }),
+    //...mapActions({ register: "auth/register" }),
     clearForm() {
       this.$v.$reset();
-      this.fullname = "";
+      this.full_name = "";
       this.username = "";
       this.email = "";
       this.password = "";
       this.confirmPassword = "";
     },
-     async submitForm() {
+    register() {
       this.$v.$touch();
       this.isLoading = true;
-      try {
-        await this.register({
-          fullname: this.fullname,
-          username: this.username,
+      axios
+        .post("http://localhost:3000/api/v1/users", {
+          full_name: this.fullname,
+          name: this.username,
           email: this.email,
           password: this.password,
-          router: this.$router
+          password_confirmation: this.confirmPassword
+        })
+        .then(() => {
+          this.clearForm();
+          this.isLoading = false;
+          this.error = null;
+          this.$router.push("/auth/login");
+        })
+        .catch(error => {
+          this.$store.commit('setErrors', error.response.data.errors);
+          this.error = error;
+          this.isLoading = false;
         });
-        this.clearForm();
-        this.isLoading = false;
-        this.error = null;
-      } catch (error) {
-        this.error = error;
-        this.isLoading = false;
-      }
-     }
+    },
+    // async submitForm() {
+    //   this.$v.$touch();
+    //   this.isLoading = true;
+    //   try {
+    //     await this.register({
+    //       fullname: this.fullname,
+    //       username: this.username,
+    //       email: this.email,
+    //       password: this.password,
+    //       router: this.$router
+    //     });
+    //     this.clearForm();
+    //     this.isLoading = false;
+    //     this.error = null;
+    //   } catch (error) {
+    //     this.error = error;
+    //     this.isLoading = false;
+    //   }
+    //  }
   }
 };
 </script>

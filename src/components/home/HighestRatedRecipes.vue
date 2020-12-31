@@ -17,22 +17,24 @@
             aspect-ratio="1"
             height="185"
             max-height="200"
-            :src="recipe.imageUrl"
-            :alt="recipe.name"
+            :src="recipe.image"
+            :alt="recipe.title"
             class="recipe-image"
           >
           </v-img>
           <v-card-title class="recipe-title">
-            <router-link
+            <!-- <router-link
               :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`"
               class="recipe-link"
-              >{{ recipe.name }}</router-link
-            >
+              >{{ recipe.title }}</router-link
+            > -->
+            {{ recipe.title }}
           </v-card-title>
           <p class="recipe-rating">
             <em
-              >Rated {{ recipe.rating }}/5 by {{ recipe.ratedBy.length }}
-              {{ recipe.ratedBy.length === 1 ? "person" : "people" }}</em
+              >Rated {{ recipe.rating }}/5
+              <!-- {{ recipe.ratedBy.length === 1 ? "person" : "people" }} -->
+              </em
             >
           </p>
         </v-card>
@@ -42,33 +44,52 @@
 </template>
 
 <script>
-import { sortMethods, calculateRecipeRating } from "@/helpers";
+import { sortMethods } from "../../helpers";
+import axios from "axios";
 export default {
   name: "highest-rated-recipes",
-  props: {
-    recipeList: {
-      type: Array,
-      required: true
-    }
+  data() {
+    return {
+      recipeList: [],
+      isLoading: false,
+      error: null,
+    };
   },
   computed: {
     highestRatedRecipes() {
       return [...this.recipeList]
-        .map(recipe => ({
-          ...recipe,
-          rating: calculateRecipeRating(
-            JSON.parse(JSON.stringify(recipe.ratedBy))
-          )
-        }))
         .sort(sortMethods.byRating)
         .slice(0, 8);
     }
   },
-  methods: {
-    generateRecipeLink(recipeTypes, recipeId) {
-      const index = Math.floor(Math.random() * recipeTypes.length);
-      const recipeType = encodeURI(recipeTypes[index]);
-      return `/recipes/${recipeType}/${recipeId}`;
+  // methods: {
+  //   generateRecipeLink(recipeTypes, recipeId) {
+  //     const index = Math.floor(Math.random() * recipeTypes.length);
+  //     const recipeType = encodeURI(recipeTypes[index]);
+  //     return `/recipes/${recipeType}/${recipeId}`;
+  //   }
+  // }
+  async created() {
+    if (this.recipeList.length === 0) {
+      this.isLoading = true;
+
+      try {
+        await axios.get("http://localhost:3000/api/v1/recipes", {
+          headers: { Authorization: this.$store.getters.getToken }
+        })
+        .then(response => this.recipeList = response.data) 
+        // {
+        //   this.$store.commit('setToken', response.data.auth_token);
+        //   this.$store.commit('setRecipeList', response.data.recipeList);
+
+        // })
+        .catch(e => e);
+
+        this.isLoading = false;
+      } catch (error) {
+        this.error = error;
+        this.isLoading = false;
+      }
     }
   }
 };
@@ -90,8 +111,8 @@ export default {
   color: $app-secondary-color;
   margin: 1rem 0;
 }
-.recipes {
-}
+// .recipes {
+// }
 .recipe {
   padding: 0 0 1rem 0;
   @include smallDevices {

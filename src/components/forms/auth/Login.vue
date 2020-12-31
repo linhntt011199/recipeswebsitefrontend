@@ -18,11 +18,12 @@
       @blur="$v.password.$touch()"
     ></v-text-field>
 
-    <v-btn type="submit" class="mr-4 button" color="#04b4d4">submit</v-btn>
+    <v-btn type="submit" class="mr-4 button" color="#04b4d4" @click="authenticate">submit</v-btn>
   </form>
 </template>
 
 <script>
+import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
 export default {
@@ -66,6 +67,19 @@ export default {
       this.$v.$reset();
       this.email = "";
       this.password = "";
+    },
+    authenticate() {
+      axios
+        .post("http://localhost:3000/authenticate", {
+          email: this.email,
+          password: this.password
+        })
+        .then(response => {
+          this.$store.commit('setToken', response.data.auth_token);
+          this.$store.commit('setUser', response.data.user);
+          this.$router.push('/');
+        })
+        .catch(error => this.$store.commit('setErrors', error.response.data.errors));
     }
   }
 };

@@ -1,25 +1,25 @@
 <template>
   <section class="recipe-of-the-day">
     <img
-      :src="recipeOfTheDay.imageUrl"
-      :alt="recipeOfTheDay.name"
+      :src="recipeOfTheDay.image"
+      :alt="recipeOfTheDay.title"
       class="image"
     />
     <p class="recipe-title">Recipe of the day</p>
-    <p class="recipe-name">{{ recipeOfTheDay.name }}</p>
+    <p class="recipe-name">{{ recipeOfTheDay.title }}</p>
     <div class="recipe-added-by">
       <span>by</span>
       <router-link
         :to="{
           name: 'profile',
           params: {
-            userId: recipeOfTheDay.addedBy.id,
-            fullname: recipeOfTheDay.addedBy.fullname
+            userId: recipeOfTheDay.userId,
+            fullname: recipeOfTheDay.full_name
           }
         }"
         class="recipe-added-by-link"
       >
-        <img
+        <!-- <img
           :src="
             recipeOfTheDay.addedBy.imageUrl ||
               require('@/assets/images/user.png')
@@ -29,7 +29,7 @@
         />
         <span class="recipe-added-by-name">{{
           recipeOfTheDay.addedBy.fullname
-        }}</span>
+        }}</span> -->
       </router-link>
     </div>
   </section>
@@ -87,6 +87,7 @@ export default {
     }
   }
   &-name {
+    display: flex;
     font-size: 1.5rem;
     color: #333333;
     @include mediumDevices {
