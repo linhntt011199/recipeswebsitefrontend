@@ -4,42 +4,66 @@
     <app-main />
     <app-footer v-show="!displayNavAndFooter" />
     <v-tooltip left>
-      <template v-slot:activator="{on }">
-      
-      <v-btn
-        color="#04b4d4"
-        dark
-        fab
-        fixed
-        right
-        v-show="!displayNavAndFooter"
-        class="add-recipe"
-        @click="addRecipe"
-        v-on="on"
-      >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          color="#04b4d4"
+          dark
+          fab
+          fixed
+          right
+          v-show="!displayNavAndFooter"
+          class="add-recipe"
+          @click="addRecipe"
+          v-on="on"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
       </template>
       <span>Add Recipe</span>
+
+      <template>
+        <div>
+          <a-button type="primary" @click="showModal">
+            Open Modal with async logic
+          </a-button>
+          <a-modal
+            title="Title"
+            :visible="true"
+            :confirm-loading="confirmLoading"
+            @ok="handleOk"
+            @cancel="handleCancel"
+          >
+            <p>{{ ModalText }}</p>
+          </a-modal>
+        </div>
+      </template>
+
     </v-tooltip>
   </v-app>
 </template>
+
 
 <script>
 import AppNavbar from "./components/layout/Navbar";
 import AppMain from "./components/layout/Main";
 import AppFooter from "./components/layout/Footer";
+// import { Button, Modal } from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
+
 export default {
   name: "RecipesWebsite",
   components: {
     AppNavbar,
     AppMain,
-    AppFooter
+    AppFooter,
   },
   data() {
     return {
       routeName: this.$route.name,
-      isAuthenticated: false
+      isAuthenticated: false,
+      ModalText: "Content of the modal",
+      visible: false,
+      confirmLoading: false,
     };
   },
   watch: {
@@ -48,13 +72,13 @@ export default {
         this.routeName = routeName;
       },
       deep: true,
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   computed: {
     displayNavAndFooter() {
       return this.routeName === "register" || this.routeName === "login";
-    }
+    },
   },
   methods: {
     addRecipe() {
@@ -63,8 +87,26 @@ export default {
       } else {
         this.$router.push("/recipes/new");
       }
-    }
-  }
+    },
+
+    //---
+    showModal() {
+      this.visible = true;
+    },
+    handleOk() {
+      this.ModalText = "The modal will be closed after two seconds";
+      this.confirmLoading = true;
+      setTimeout(() => {
+        this.visible = false;
+        this.confirmLoading = false;
+      }, 2000);
+    },
+    handleCancel() {
+      console.log("Clicked cancel button");
+      this.visible = false;
+    },
+    //--
+  },
 };
 </script>
 <style lang="scss">

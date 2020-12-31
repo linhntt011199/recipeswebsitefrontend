@@ -30,6 +30,7 @@ import RecipeOfTheDay from "@/components/home/RecipeOfTheDay";
 import NewestAdditions from "@/components/home/NewestAdditions";
 import RecipeTypes from "@/components/home/RecipeTypes";
 import HighestRatedRecipes from "@/components/home/HighestRatedRecipes";
+import MostViewedRecipes from "@/components/home/MostViewedRecipes";
 export default {
   name: "home-page",
   components: {
@@ -37,7 +38,8 @@ export default {
     RecipeOfTheDay,
     NewestAdditions,
     RecipeTypes,
-    HighestRatedRecipes
+    HighestRatedRecipes,
+    MostViewedRecipes
   },
 
   data() {
