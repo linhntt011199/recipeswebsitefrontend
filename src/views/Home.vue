@@ -9,7 +9,7 @@
         </div>
         <div v-else class="home-content">
           <!-- Edit from here -->
-          <div class="columns" v-for="recipe in recipeList" :key="recipe.id">
+          <!-- <div class="columns" v-for="recipe in recipeList" :key="recipe.id">
               <div class="title is-4 has-text-centered">
                 <div class="has-text-weight-semibold">
                   {{ recipe.title }}
@@ -19,8 +19,8 @@
                 </div>
                 <br>
               </div>
-          </div>
-          <!-- <div class="recipe-of-the-day-and-new-additions">
+          </div> -->
+          <div class="recipe-of-the-day-and-new-additions">
             <recipe-of-the-day :recipe-of-the-day="getRandomRecipe(recipeList)" />
             <newest-additions/>
           </div>
@@ -29,7 +29,7 @@
           <v-divider class="divider" />
           <highest-rated-recipes />
           <v-divider class="divider" />
-          <most-viewed-recipes :recipe-list="recipeList" />  -->
+          <most-viewed-recipes /> 
         </div>
     </div>
   </div>
@@ -44,7 +44,7 @@ import RecipeOfTheDay from '../components/home/RecipeOfTheDay.vue';
 import NewestAdditions from '../components/home/NewestAdditions.vue';
 import RecipeTypes from '../components/home/RecipeTypes.vue';
 import HighestRatedRecipes from '../components/home/HighestRatedRecipes.vue';
-import MostViewedRecipes from '../components/home/MostViewedRecipes.vues';
+import MostViewedRecipes from '../components/home/MostViewedRecipes.vue';
 export default {
   name: "home-page",
 
@@ -74,11 +74,11 @@ export default {
     // }
   },
 
-  filters: {
-    moment: function (date) {
-      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
-    }
-  },
+  // filters: {
+  //   moment: function (date) {
+  //     return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+  //   }
+  // },
 
   methods: {
     // ...mapActions({

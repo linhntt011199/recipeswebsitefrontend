@@ -56,7 +56,7 @@ import AppNavbar from "./components/layout/Navbar";
 import AppMain from "./components/layout/Main";
 import AppFooter from "./components/layout/Footer";
 // import { Button, Modal } from 'ant-design-vue';
-import 'ant-design-vue/dist/antd.css';
+// import 'ant-design-vue/dist/antd.css';
 
 export default {
   name: "RecipesWebsite",
@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       routeName: this.$route.name,
-      isAuthenticated: false,
+      //isAuthenticated: false,
       ModalText: "Content of the modal",
       visible: false,
       confirmLoading: false,
@@ -86,6 +86,9 @@ export default {
   computed: {
     displayNavAndFooter() {
       return this.routeName === "register" || this.routeName === "login";
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
     },
   },
   methods: {

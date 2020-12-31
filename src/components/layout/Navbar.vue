@@ -78,12 +78,12 @@ export default {
     padding: 0 3.5rem;
   }
   @include largeDevices {
-    padding: 0 5rem;
+    padding: 0 4rem;
   }
 }
 .app-logo {
-  width: 3.75rem;
-  margin-top: 0.5rem;
+  width: 5rem;
+  margin-top: 1.5rem;
 }
 .header-right {
   display: flex;
@@ -106,7 +106,7 @@ export default {
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-right: 0.35rem;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 500;
     color: $app-color;
   }

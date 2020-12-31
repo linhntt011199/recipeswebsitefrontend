@@ -14,7 +14,7 @@
           name: 'profile',
           params: {
             userId: recipeOfTheDay.userId,
-            fullname: recipeOfTheDay.full_name
+            fullname: recipeOfTheDay.user_name
           }
         }"
         class="recipe-added-by-link"
@@ -24,12 +24,12 @@
             recipeOfTheDay.addedBy.imageUrl ||
               require('@/assets/images/user.png')
           "
-          :alt="recipeOfTheDay.addedBy.fullname"
+          :alt="recipeOfTheDay.user_name"
           class="recipe-added-by-image"
-        />
+        /> -->
         <span class="recipe-added-by-name">{{
-          recipeOfTheDay.addedBy.fullname
-        }}</span> -->
+          recipeOfTheDay.user_name
+        }}</span>
       </router-link>
     </div>
   </section>
