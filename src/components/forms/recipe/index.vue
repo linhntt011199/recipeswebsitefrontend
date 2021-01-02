@@ -107,7 +107,7 @@ import { required } from "vuelidate/lib/validators";
 import RecipePhotoField from "./Photo";
 import RecipeTypeField from "./Type";
 import RecipeDifficultyField from "./Difficulty";
-// import RecipeIngredientsField from "./Ingredients";
+import RecipeIngredientsField from "./Ingredients";
 // import RecipeInstructionsField from "./Instructions";
 export default {
   name: "recipe-form",
@@ -116,7 +116,7 @@ export default {
     RecipePhotoField,
     RecipeTypeField,
     RecipeDifficultyField,
-    // RecipeIngredientsField,
+    RecipeIngredientsField,
     // RecipeInstructionsField
   },
   props: {
