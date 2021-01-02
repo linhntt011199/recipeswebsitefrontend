@@ -12,8 +12,9 @@
                     There are currently no recipes in the database
                 </div>
                 <section v-else class="recipe-list-grid">
-                    <sort-recipe-list />
+                    <sort-recipe-list @sortRecipeListBy="sortRecipeList" />
                     <recipe-list class="recipe-list" :recipe-list="sortedRecipeList" />
+                    <!-- <br /> -->
                 </section>
             </div>
         </div>
@@ -26,7 +27,7 @@ import { sortMethods} from "@/helpers";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import Spinner from "@/components/shared/Spinner";
 import SortRecipeList from "@/components/recipes/list/SortRecipeList";
-//import RecipeList from "@/components/recipes/shared/RecipeList";
+import RecipeList from "@/components/recipes/shared/RecipeList";
 import axios from "axios";
 export default {
     name: "recipe-list-page",
@@ -34,12 +35,12 @@ export default {
         Breadcrumbs,
         Spinner,
         SortRecipeList,
-        //RecipeList
+        RecipeList
     },
 
     data() {
         return {
-            breaddcrumbLinks: [
+            breadcrumbLinks: [
                 {
                     name: "Recipes",
                     path: ""
@@ -140,6 +141,11 @@ export default {
         padding-top: 0.5rem;
         min-height: 50vh;
 
+        &--loading {
+            justify-content: center;
+            align-items: center;
+        }
+
         @include mediumDevices {
             margin: 2rem 3.5rem;
             padding-top: 1rem;
@@ -153,7 +159,7 @@ export default {
     &-grid {
         padding: 1rem;
         @include mediumDevices {
-        padding: 0;
+            padding: 0;
         }
     }
 }
