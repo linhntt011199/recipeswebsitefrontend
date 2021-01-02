@@ -106,7 +106,7 @@ import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 import RecipePhotoField from "./Photo";
 import RecipeTypeField from "./Type";
-// import RecipeDifficultyField from "./Difficulty";
+import RecipeDifficultyField from "./Difficulty";
 // import RecipeIngredientsField from "./Ingredients";
 // import RecipeInstructionsField from "./Instructions";
 export default {
@@ -115,7 +115,7 @@ export default {
   components: {
     RecipePhotoField,
     RecipeTypeField,
-    // RecipeDifficultyField,
+    RecipeDifficultyField,
     // RecipeIngredientsField,
     // RecipeInstructionsField
   },
