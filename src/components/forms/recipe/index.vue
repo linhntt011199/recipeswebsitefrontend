@@ -104,20 +104,20 @@
 import { mapGetters, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-//import RecipePhotoField from "./Photo";
+import RecipePhotoField from "./Photo";
 import RecipeTypeField from "./Type";
-// import RecipeDifficultyField from "./Difficulty";
-// import RecipeIngredientsField from "./Ingredients";
-// import RecipeInstructionsField from "./Instructions";
+import RecipeDifficultyField from "./Difficulty";
+import RecipeIngredientsField from "./Ingredients";
+import RecipeInstructionsField from "./Instructions";
 export default {
   name: "recipe-form",
   mixins: [validationMixin],
   components: {
-    // RecipePhotoField,
+    RecipePhotoField,
     RecipeTypeField,
-    // RecipeDifficultyField,
-    // RecipeIngredientsField,
-    // RecipeInstructionsField
+    RecipeDifficultyField,
+    RecipeIngredientsField,
+    RecipeInstructionsField
   },
   props: {
     // Either add new recipe or update existing
