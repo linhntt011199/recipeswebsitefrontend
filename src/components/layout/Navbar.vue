@@ -78,7 +78,7 @@ export default {
     padding: 0 3.5rem;
   }
   @include largeDevices {
-    padding: 0 4rem;
+    padding: 0 4.5rem;
   }
 }
 .app-logo {

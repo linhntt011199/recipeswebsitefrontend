@@ -29,7 +29,7 @@
       <template>
         <div>
           <a-button type="primary" @click="showModal">
-            Open Modal with async logic
+            <!-- Open Modal with async logic -->
           </a-button>
           <a-modal
             title="Title"
@@ -38,7 +38,7 @@
             @ok="handleOk"
             @cancel="handleCancel"
           >
-            <p>{{ ModalText }}</p>
+            <!-- <p>{{ ModalText }}</p> -->
           </a-modal>
         </div>
       </template>
