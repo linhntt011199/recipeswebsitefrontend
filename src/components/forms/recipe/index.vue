@@ -108,7 +108,7 @@ import RecipePhotoField from "./Photo";
 import RecipeTypeField from "./Type";
 import RecipeDifficultyField from "./Difficulty";
 import RecipeIngredientsField from "./Ingredients";
-// import RecipeInstructionsField from "./Instructions";
+import RecipeInstructionsField from "./Instructions";
 export default {
   name: "recipe-form",
   mixins: [validationMixin],
@@ -117,7 +117,7 @@ export default {
     RecipeTypeField,
     RecipeDifficultyField,
     RecipeIngredientsField,
-    // RecipeInstructionsField
+    RecipeInstructionsField
   },
   props: {
     // Either add new recipe or update existing
