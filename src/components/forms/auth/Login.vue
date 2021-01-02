@@ -11,14 +11,24 @@
 
     <v-text-field
       v-model.trim="password"
+      :type="showPassword ? 'text' : 'password'"
+      :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
       :error-messages="passwordErrors"
       label="Password"
       required
       @input="$v.password.$touch()"
       @blur="$v.password.$touch()"
+      @click:append="showPassword = !showPassword"
     ></v-text-field>
-
-    <v-btn type="submit" class="mr-4 button" color="#04b4d4" @click="authenticate">submit</v-btn>
+    <p v-show="error" class="error-message">{{ error }}</p>
+    <v-btn 
+      type="submit" 
+      class="mr-4 button" 
+      color="#04b4d4" 
+      :disabled="isLoading"
+      :loading="isLoading" 
+      @click="authenticate"
+      >log in</v-btn>
   </form>
 </template>
 
@@ -41,7 +51,8 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      showPassword: false,
     };
   },
   computed: {
@@ -95,5 +106,11 @@ export default {
   margin: 0;
   width: 100%;
   color: $white;
+}
+.error-message {
+  font-size: 0.85rem;
+  color: $error-color;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
 }
 </style>

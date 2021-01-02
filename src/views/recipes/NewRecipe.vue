@@ -28,7 +28,7 @@ export default {
   &-page {
     min-height: 100vh;
     background: linear-gradient(rgba(13, 41, 60, 0.95), rgba(13, 41, 60, 0.95)),
-      url("../../assets/images/tasties-login.jpg");
+      url("../../assets/images/login-background.jpg");
     background-size: cover;
     background-position: center;
     @include mediumDevices {

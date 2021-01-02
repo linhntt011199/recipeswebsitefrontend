@@ -104,20 +104,20 @@
 import { mapGetters, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-import RecipePhotoField from "./Photo";
+//import RecipePhotoField from "./Photo";
 import RecipeTypeField from "./Type";
-import RecipeDifficultyField from "./Difficulty";
-import RecipeIngredientsField from "./Ingredients";
-import RecipeInstructionsField from "./Instructions";
+// import RecipeDifficultyField from "./Difficulty";
+// import RecipeIngredientsField from "./Ingredients";
+// import RecipeInstructionsField from "./Instructions";
 export default {
   name: "recipe-form",
   mixins: [validationMixin],
   components: {
-    RecipePhotoField,
+    // RecipePhotoField,
     RecipeTypeField,
-    RecipeDifficultyField,
-    RecipeIngredientsField,
-    RecipeInstructionsField
+    // RecipeDifficultyField,
+    // RecipeIngredientsField,
+    // RecipeInstructionsField
   },
   props: {
     // Either add new recipe or update existing
@@ -134,29 +134,29 @@ export default {
     title: {
       required
     },
-    description: {
-      required
-    },
-    prepTime: {
-      required
-    }
+    // description: {
+    //   required
+    // },
+    // prepTime: {
+    //   required
+    // }
   },
   data() {
     return {
       newRecipe: {},
       updatedFields: {},
       title: this.actionType !== "add-recipe" ? this.recipeToEdit.name : "",
-      image: null,
-      description:
-        this.actionType !== "add-recipe" ? this.recipeToEdit.description : "",
-      servings:
-        this.actionType !== "add-recipe" ? this.recipeToEdit.servings : 0,
-      prepTime:
-        this.actionType !== "add-recipe" ? this.recipeToEdit.prepTime : 0,
-      cookingTime:
-        this.actionType !== "add-recipe" ? this.recipeToEdit.cookingTime : 0,
-      isVegetarian:
-        this.actionType !== "add-recipe" ? this.recipeIsVegetarian : false,
+      // image: null,
+      // description:
+      //   this.actionType !== "add-recipe" ? this.recipeToEdit.description : "",
+      // servings:
+      //   this.actionType !== "add-recipe" ? this.recipeToEdit.servings : 0,
+      // prepTime:
+      //   this.actionType !== "add-recipe" ? this.recipeToEdit.prepTime : 0,
+      // cookingTime:
+      //   this.actionType !== "add-recipe" ? this.recipeToEdit.cookingTime : 0,
+      // isVegetarian:
+      //   this.actionType !== "add-recipe" ? this.recipeIsVegetarian : false,
       isLoading: false,
       error: null
     };
@@ -177,69 +177,69 @@ export default {
       !this.$v.title.required && errors.push("Recipe title is required.");
       return errors;
     },
-    descriptionErrors() {
-      const errors = [];
-      if (!this.$v.description.$dirty) return errors;
-      !this.$v.description.required &&
-        errors.push("Recipe description is required.");
-      return errors;
-    },
-    prepTimeErrors() {
-      const errors = [];
-      if (!this.$v.prepTime.$dirty) return errors;
-      !this.$v.prepTime.required &&
-        errors.push("Preparation time is required.");
-      return errors;
-    }
+    // descriptionErrors() {
+    //   const errors = [];
+    //   if (!this.$v.description.$dirty) return errors;
+    //   !this.$v.description.required &&
+    //     errors.push("Recipe description is required.");
+    //   return errors;
+    // },
+    // prepTimeErrors() {
+    //   const errors = [];
+    //   if (!this.$v.prepTime.$dirty) return errors;
+    //   !this.$v.prepTime.required &&
+    //     errors.push("Preparation time is required.");
+    //   return errors;
+    // }
   },
   methods: {
     ...mapActions({
       addRecipe: "recipes/addRecipe",
       editAndUpdateRecipe: "recipes/editAndUpdateRecipe"
     }),
-    selectRecipeImage(image) {
-      this.image = image;
-    },
+    // selectRecipeImage(image) {
+    //   this.image = image;
+    // },
     selectRecipeType(recipeType) {
       this.newRecipe = {
         ...this.newRecipe,
         recipeType
       };
     },
-    selectRecipeDifficulty(difficulty) {
-      this.newRecipe = {
-        ...this.newRecipe,
-        difficulty
-      };
-    },
-    selectRecipeIngredients(ingredients) {
-      this.newRecipe = {
-        ...this.newRecipe,
-        ingredients
-      };
-    },
-    selectRecipeInstructions(instructions) {
-      this.newRecipe = {
-        ...this.newRecipe,
-        instructions
-      };
-    },
+    // selectRecipeDifficulty(difficulty) {
+    //   this.newRecipe = {
+    //     ...this.newRecipe,
+    //     difficulty
+    //   };
+    // },
+    // selectRecipeIngredients(ingredients) {
+    //   this.newRecipe = {
+    //     ...this.newRecipe,
+    //     ingredients
+    //   };
+    // },
+    // selectRecipeInstructions(instructions) {
+    //   this.newRecipe = {
+    //     ...this.newRecipe,
+    //     instructions
+    //   };
+    // },
     async submitNewRecipe() {
       if (this.isAuthenticated && this.currentUser) {
         this.newRecipe = {
           ...this.newRecipe,
           name: this.title,
-          description: this.description,
-          servings: this.servings,
-          prepTime: this.prepTime,
-          cookingTime: this.cookingTime,
-          isVegetarian: this.isVegetarian,
+          // description: this.description,
+          // servings: this.servings,
+          // prepTime: this.prepTime,
+          // cookingTime: this.cookingTime,
+          // isVegetarian: this.isVegetarian,
           rating: 0,
           views: 0,
           addedBy: {
-            fullname: this.currentUser.fullname,
+            fullname: this.currentUser.user_name,
             id: this.currentUser.id,
-            imageUrl: this.currentUser.imageUrl
+            imageUrl: this.currentUser.image
           },
           ratedBy: [],
           likedBy: [],

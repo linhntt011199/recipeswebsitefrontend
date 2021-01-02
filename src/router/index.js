@@ -49,7 +49,16 @@ const routes = [{
         //         }
         //     ]
         // }
-    }
+    },
+    {
+        path: "/recipes",
+        name: "recipe-list",
+        component: () =>
+            import (
+                "../views/recipes/RecipeList.vue"
+            ),
+       
+    },
 ];
 
 const router = new VueRouter({

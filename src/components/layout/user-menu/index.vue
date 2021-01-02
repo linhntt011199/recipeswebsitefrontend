@@ -102,25 +102,16 @@ export default {
       return this.$store.getters.getErrors;
     }
   },
-  props: {
-    // isAuthenticated: {
-    //   type: Boolean,
-    //   required: true
-    // },
-    currentUser: {
-      type: Object
-    }
-  },
   methods: {
     // navigateTo() {
-      // this.$router.push({
-      //   name: "profile",
-      //   params: {
-      //     userId: this.userId,
-      //     name: this.userName,
-      //     // recipes
-      //   }
-      // });
+    //   this.$router.push({
+    //     name: "profile",
+    //     params: {
+    //       userId: this.id,
+    //       name: this.name,
+    //       // recipes
+    //     }
+    //   });
     // },
     logout() {
       this.$store.commit('logout');
