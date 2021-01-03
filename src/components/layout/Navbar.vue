@@ -23,8 +23,8 @@
               alt="userName"
               class="user-menu-image"
             />
-            <span class="user-menu-name">{{
-              isAuthenticated ? userName : "Profile"
+            <span class="user-menu-name"> Hello {{
+              isAuthenticated ? userName : "Stranger"
             }}</span>
             <v-icon color="#04b4d4" class="user-menu-icon">
               mdi-chevron-down

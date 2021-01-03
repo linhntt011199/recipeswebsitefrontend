@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    auth_token: localStorage.getItem('token') || '',
+    auth_token: '',
     user: {},
     recipeList: [],
     errors: ''
@@ -14,12 +14,20 @@ export default new Vuex.Store({
   mutations: {
     setToken(state, token) {
       state.auth_token = token;
-      localStorage.setItem('auth_token', token);
+      localStorage.setItem('auth_token', JSON.stringify(token))
     },
 
     setUser(state, user) {
       state.user = user;
-      localStorage.setItem('user', user);
+      localStorage.setItem('user', JSON.stringify(user))
+    },
+
+    setUserName(state, userName) {
+      state.user.name = userName;
+    },
+
+    setUserId(state, userId) {
+      state.user.id = userId;
     },
 
     setErrors(state, errors) {
@@ -34,12 +42,12 @@ export default new Vuex.Store({
     },
     setRecipeList(state, recipeList) {
       state.recipeList = recipeList;
-      localStorage.setItem('recipeList', recipeList);
+      localStorage.setItem('recipeList', JSON.stringify(recipeList))
     }
   },
 
   getters: {
-    user (state) {
+    getUser (state) {
       return state.user
     },
     getToken(state) {
@@ -90,8 +98,10 @@ export default new Vuex.Store({
       if (!token) {
         return
       }
-      const user = localStorage.getItem('user')
-      const auth_token = localStorage.getItem('auth_token')
+      // const user = localStorage.getItem('user')
+      const user = JSON.parse(localStorage.getItem('user'))
+      // const auth_token = localStorage.getItem('auth_token')
+      const auth_token = JSON.parse(localStorage.getItem('auth_token'))
       commit('setToken', auth_token)
       commit('setUser', user)
     }

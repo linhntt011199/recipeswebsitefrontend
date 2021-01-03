@@ -12,7 +12,7 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  // created() {
-  //   this.$store.dispatch('AutoLogin')
-  // }
+  created() {
+    this.$store.dispatch('AutoLogin')
+  }
 }).$mount('#app')
