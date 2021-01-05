@@ -8,7 +8,7 @@
       <v-text-field
         v-model="instructions"
         append-icon="mdi-plus"
-        label="Enter Ingredient"
+        label="Enter Instructions"
         required
         filled
         @input="$v.instructions.$touch()"
