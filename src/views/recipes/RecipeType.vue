@@ -30,10 +30,12 @@ import { mapGetters, mapActions } from "vuex";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import Spinner from "@/components/shared/Spinner";
 import RecipeList from "@/components/recipes/shared/RecipeList";
+import RecipeTypeHeader from "@/components/recipes/type/Header";
 import { recipeTypeList } from "@/helpers";
 export default {
   name: "recipe-type-page",
   components: {
+    RecipeTypeHeader,
     Breadcrumbs,
     Spinner,
     RecipeList

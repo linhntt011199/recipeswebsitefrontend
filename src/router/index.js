@@ -57,8 +57,30 @@ const routes = [{
             import (
                 "../views/recipes/RecipeList.vue"
             ),
-       
+
     },
+
+    {
+        path: "/recipes/:recipeType",
+        name: "recipe-type",
+        component: () =>
+            import (
+                "../views/recipes/RecipeType.vue"
+            ),
+        // meta: {
+        //   title: "Recipe Type - Tasties",
+        //   metaTags: [
+        //     {
+        //       name: "description",
+        //       content: "The recipe type page of Tasties"
+        //     },
+        //     {
+        //       property: "og:description",
+        //       content: "The recipe type page of Tasties"
+        //     }
+        //   ]
+        // }
+    }
 ];
 
 const router = new VueRouter({
