@@ -23,7 +23,7 @@
 
 <script>
 //import { mapGetters, mapActions } from "vuex";
-import { sortMethods} from "@/helpers";
+import { sortMethods} from "../../helpers";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import Spinner from "@/components/shared/Spinner";
 import SortRecipeList from "@/components/recipes/list/SortRecipeList";

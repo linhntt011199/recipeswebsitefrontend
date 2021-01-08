@@ -4,9 +4,14 @@
     <v-tooltip right>
       <template v-slot:activator="{ on }">
         <label for="recipe-photo" v-on="on">
-          <v-btn color="#04b4d4" class="ma-2 white--text" fab>
-            <v-icon dark>mdi-cloud-upload</v-icon>
-          </v-btn>
+          <!-- <v-btn color="#04b4d4" class="ma-2 white--text" fab> -->
+            <!-- <v-icon dark>mdi-cloud-upload</v-icon> -->
+            <v-file-input
+              :rules="rules"
+              accept="image/png, image/jpeg, image/bmp"
+              prepend-icon="mdi-cloud-upload"
+            ></v-file-input>
+          <!-- </v-btn> -->
         </label>
       </template>
       <span>Upload Photo</span>
