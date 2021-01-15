@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     latestRecipes() {
-      return [...this.recipeList].sort(sortMethods.byNewest).slice(0, 4);
+      return [...this.recipeList].sort(sortMethods.byNewest).slice(0, 5);
     }
   },
   methods: {
