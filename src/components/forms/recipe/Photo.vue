@@ -1,20 +1,25 @@
 <template>
   <div class="recipe-photo">
-    <p class="recipe-photo-label">Recipe Photo</p>
-    <v-tooltip right>
+    <p class="recipe-photo-title">Recipe Photo</p>
+    <!-- <v-tooltip right>
       <template v-slot:activator="{ on }">
         <label for="recipe-photo" v-on="on">
-          <!-- <v-btn color="#04b4d4" class="ma-2 white--text" fab> 
-            <v-icon dark>mdi-cloud-upload</v-icon> -->
+          <v-btn color="#04b4d4" class="ma-2 white--text" fab> 
+            <v-icon dark>mdi-cloud-upload</v-icon> 
             <v-file-input
               accept="image/png, image/jpeg, image/bmp"
               prepend-icon="mdi-cloud-upload"
               placeholder="Upload photo"
             ></v-file-input>
-          <!-- </v-btn> -->
+          </v-btn>
         </label>
       </template>
-    </v-tooltip>
+    </v-tooltip> -->
+    <v-btn color="#04b4d4" class="ma-2 white--text" fab>
+      <label for="recipe-photo" class="recipe-photo-label">
+        <v-icon dark>mdi-cloud-upload</v-icon>
+      </label>
+    </v-btn>
 
     <input
       type="file"
@@ -72,10 +77,14 @@ export default {
 .recipe-photo {
   text-align: center;
   margin-bottom: 2rem;
-  &-label {
+  &-title {
     color: $app-secondary-color;
     margin-bottom: 0.5rem;
     text-align: left;
+  }
+
+  &-label {
+    cursor: pointer;
   }
   &-input {
     display: none;

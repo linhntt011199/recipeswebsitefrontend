@@ -80,7 +80,27 @@ const routes = [{
         //     }
         //   ]
         // }
-    }
+    },
+
+    {
+        path: "/recipes/:recipeType/:recipeId/edit",
+        name: "edit-recipe",
+        component: () =>
+          import(/* webpackChunkName: "edit-recipe" */ "../views/recipes/Edit.vue"),
+        meta: {
+          title: "Edit Recipe - Tasties",
+          metaTags: [
+            {
+              name: "description",
+              content: "The edit recipe page of Tasties"
+            },
+            {
+              property: "og:description",
+              content: "The edit recipe page of Tasties"
+            }
+          ]
+        }
+    },
 ];
 
 const router = new VueRouter({
