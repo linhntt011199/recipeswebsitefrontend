@@ -110,6 +110,7 @@ export default {
     &-image {
       height: 1.5rem;
       width: 1.5rem;
+      border-radius: 50%;
     }
     &-name {
       margin-left: 0.5rem;

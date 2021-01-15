@@ -18,6 +18,17 @@
         <social-login />
       </div>
     </v-card>
+    <div class="password-reset-prompt">
+      Forgot password? Click 
+      <!-- <reset-password />  -->
+        <router-link
+          to="/auth/register"
+          class="register-link"
+        >
+          here</router-link
+        >
+      to reset it
+    </div>
     <p class="register-msg">
       Not yet a member? Register<router-link
         to="/auth/register"
@@ -32,10 +43,12 @@
 <script>
 import LoginForm from "@/components/forms/auth/Login";
 import SocialLogin from "@/components/auth/socialLogin";
+//import ResetPassword from "@/components/forms/profile/ResetPassword";
 export default {
   name: "login-page",
   components: {
     LoginForm,
+    //ResetPassword,
     SocialLogin
   }
 };
@@ -100,11 +113,18 @@ export default {
 .divider {
   margin: 0 1rem;
 }
+
+.password-reset-prompt {
+  color: $white;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  display: flex;
+}
 .register {
-  &-msg {
-    color: $white;
-    margin-top: 1rem;
-    margin-bottom: 0;
+  &-promt {
+    @extend .password-reset-prompt;
+    margin-top: 0.5rem;
+    display: block;
   }
   &-link {
     color: $app-color;

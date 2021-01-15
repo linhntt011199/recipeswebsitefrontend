@@ -14,7 +14,7 @@
               hash: '#uploaded-recipes'
             }"
             class="menu-link"
-            >My Recipes</router-link
+            >My Profile</router-link
           >
         </v-list-item>
         <v-list-item class="menu-item">
@@ -129,14 +129,14 @@ export default {
 .menu-item {
   padding: 0.25rem 1rem;
   &:hover * {
-    color: $app-color;
+    color: $app-main-color;
   }
 }
 .menu-link {
   color: #333333;
   text-decoration: none;
   &:hover {
-    color: $app-color;
+    color: $app-main-color;
   }
 }
 </style>

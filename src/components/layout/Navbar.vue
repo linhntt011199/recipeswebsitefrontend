@@ -122,7 +122,7 @@ export default {
   top: 4.85rem !important;
 }
 .btn {
-  color: $app-color !important;
+  color: $app-main-color !important;
   &--icon {
     &-magnify {
       margin-right: 0.5rem;

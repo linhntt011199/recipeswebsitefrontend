@@ -101,6 +101,26 @@ const routes = [{
           ]
         }
     },
+    {
+        path: "/profile/:userId",
+        name: "profile",
+        props: true,
+        component: () =>
+          import(/* webpackChunkName: "profile" */ "../views/profile"),
+        meta: {
+          title: "Profile - Tasties",
+          metaTags: [
+            {
+              name: "description",
+              content: "The user profile page of Tasties"
+            },
+            {
+              property: "og:description",
+              content: "The user profile page of Tasties"
+            }
+          ]
+        }
+    },
 ];
 
 const router = new VueRouter({
