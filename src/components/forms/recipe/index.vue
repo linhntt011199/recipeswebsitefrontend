@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="submitForm" novalidate="true">
     <v-text-field
-      v-model="title"
+      v-model.trim="title"
       :error-messages="titleErrors"
       label="Recipe Title"
       required
@@ -17,7 +17,7 @@
       <v-textarea
         background-color="grey lighten-3"
         solo
-        v-model="description"
+        v-model.trim="description"
         :error-messages="descriptionErrors"
         label="Please enter a brief description of recipe"
         required
@@ -28,7 +28,7 @@
 
     <recipe-type-field
       :action-type="actionType"
-      :current-recipe-type="recipeToEdit ? recipeToEdit.recipeType : ''"
+      :current-recipe-type="recipeToEdit ? recipeToEdit.recipeType : []"
       @recipeType="selectRecipeType"
     />
 
@@ -50,6 +50,17 @@
       @recipeInstructions="selectRecipeInstructions"
     />
 
+    <v-text-field
+      v-model="servings"
+      :error-messages="servingsErrors"
+      label="Servings"
+      type="number"
+      required
+      filled
+      @input="$v.servings.$touch()"
+      @blur="$v.servings.$touch()"
+    ></v-text-field>
+
     <fieldset class="fieldset">
       <legend class="legend">Recipe Time</legend>
       <div class="recipe-time">
@@ -68,6 +79,7 @@
         <v-text-field
           v-model="cookingTime"
           type="number"
+          :error-messages="cookingTimeErrors"
           label="Cooking"
           required
           filled
@@ -110,6 +122,8 @@ import RecipeTypeField from "./Type";
 import RecipeDifficultyField from "./Difficulty";
 import RecipeIngredientsField from "./Ingredients";
 import RecipeInstructionsField from "./Instructions";
+
+const greaterThanZero = value => value > 0;
 export default {
   name: "recipe-form",
   mixins: [validationMixin],
@@ -138,9 +152,17 @@ export default {
     description: {
       required
     },
+    servings: {
+      required,
+      greaterThanZero
+    },
     prepTime: {
       required,
-      // greaterThanZero
+      greaterThanZero
+    },
+    cookingTime: {
+      required,
+      greaterThanZero
     }
   },
   data() {
@@ -186,15 +208,36 @@ export default {
         errors.push("Recipe description is required.");
       return errors;
     },
+
+    servingsErrors() {
+      const errors = [];
+      if (!this.$v.servings.$dirty) return errors;
+      !this.$v.servings.required &&
+        errors.push("Number of servings is required.");
+      !this.$v.servings.greaterThanZero &&
+        errors.push("Number of servings must be greater than zero.");
+      return errors;
+    },
+
     prepTimeErrors() {
       const errors = [];
       if (!this.$v.prepTime.$dirty) return errors;
       !this.$v.prepTime.required &&
         errors.push("Preparation time is required.");
-      // !this.$v.prepTime.greaterThanZero &&
-      //   errors.push("Preparation time must be greater than zero minutes.");
+      !this.$v.prepTime.greaterThanZero &&
+        errors.push("Preparation time must be greater than zero minutes.");
       return errors;
-    }
+    },
+
+    cookingTimeErrors() {
+      const errors = [];
+      if (!this.$v.cookingTime.$dirty) return errors;
+      !this.$v.cookingTime.required &&
+        errors.push("Cooking time is required.");
+      !this.$v.cookingTime.greaterThanZero &&
+        errors.push("Cooking time must be greater than zero minutes.");
+      return errors;
+    },
   },
   methods: {
     ...mapActions({
