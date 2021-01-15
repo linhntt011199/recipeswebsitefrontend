@@ -28,7 +28,7 @@
 
     <recipe-type-field
       :action-type="actionType"
-      :current-recipe-type="recipeToEdit ? recipeToEdit.recipeType : ''"
+      :current-recipe-type="recipeToEdit ? recipeToEdit.category : ''"
       @recipeType="selectRecipeType"
     />
 
@@ -104,7 +104,7 @@
 import { mapGetters, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-
+import axios from 'axios'
 import RecipePhotoField from "./Photo";
 import RecipeTypeField from "./Type";
 import RecipeDifficultyField from "./Difficulty";
@@ -194,6 +194,15 @@ export default {
       // !this.$v.prepTime.greaterThanZero &&
       //   errors.push("Preparation time must be greater than zero minutes.");
       return errors;
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+    user() {
+      return this.$store.getters.getUser;
+    },
+    getErrors() {
+      return this.$store.getters.getErrors;
     }
   },
   methods: {
@@ -204,10 +213,10 @@ export default {
     selectRecipeImage(image) {
       this.image = image;
     },
-    selectRecipeType(recipeType) {
+    selectRecipeType(category) {
       this.newRecipe = {
         ...this.newRecipe,
-        recipeType
+        category
       };
     },
     selectRecipeDifficulty(difficulty) {
@@ -229,35 +238,34 @@ export default {
       };
     },
     async submitNewRecipe() {
-      if (this.isAuthenticated && this.currentUser) {
+      if (this.isAuthenticated) {
         this.newRecipe = {
           ...this.newRecipe,
-          name: this.title,
+          title: this.title,
           description: this.description,
           servings: this.servings,
-          prepTime: this.prepTime,
+          preparation_time: this.prepTime,
           cookingTime: this.cookingTime,
-          isVegetarian: this.isVegetarian,
+          vegetarian: this.isVegetarian,
           rating: 0,
           views: 0,
-          addedBy: {
-            fullname: this.currentUser.user_name,
-            id: this.currentUser.id,
-            imageUrl: this.currentUser.image
-          },
-          ratedBy: [],
-          likedBy: [],
-          bookmarkedBy: [],
-          comments: [],
-          addedAt: new Date().toLocaleString()
+          id: this.user().id,
+          // ratedBy: [],
+          // likedBy: [],
+          // bookmarkedBy: [],
+          // comments: [],
+          created_at: new Date().toLocaleString(),
+          updated_at: new Date().toLocaleString()
         };
         this.isLoading = true;
         try {
-          await this.addRecipe({
-            newRecipe: JSON.parse(JSON.stringify(this.newRecipe)),
-            image: this.image,
-            router: this.$router
-          });
+          console.log("Here");
+          await axios({
+            method: 'post',
+            url: 'http://localhost:3000/api/v1/recipes',
+            headers: { Authorization: this.$store.getters.getToken },
+            data: JSON.parse(JSON.stringify(this.newRecipe))
+          })
           this.isLoading = false;
         } catch (error) {
           this.error = error;
