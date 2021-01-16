@@ -120,7 +120,29 @@ const routes = [{
             }
           ]
         }
-    },
+      },
+      {
+        path: "/recipes/:recipeType/:recipeId",
+        name: "recipe-detail",
+        props: true,
+        component: () =>
+          import(
+            "../views/recipes/Detail.vue"
+          ),
+      //   meta: {
+      //     title: "Recipe Detail - Tasties",
+      //     metaTags: [
+      //       {
+      //         name: "description",
+      //         content: "The recipe detail page of Tasties"
+      //       },
+      //       {
+      //         property: "og:description",
+      //         content: "The recipe detail page of Tasties"
+      //       }
+      //     ]
+      // }
+    }
 ];
 
 const router = new VueRouter({

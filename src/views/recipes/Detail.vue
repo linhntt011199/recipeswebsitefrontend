@@ -70,6 +70,11 @@ import RecipeImage from "@/components/recipes/detail/RecipeImage";
 import RecipeInfo from "@/components/recipes/detail/RecipeInfo";
 import RateRecipe from "@/components/recipes/detail/RateRecipe";
 import PostedBy from "@/components/recipes/detail/PostedBy";
+import Ingredients from "@/components/recipes/detail/Ingredients";
+import Instructions from "@/components/recipes/detail/Instructions";
+import CommentList from "@/components/recipes/detail/CommentList";
+import SimilarRecipes from "@/components/recipes/detail/SimilarRecipes";
+import CommentForm from "@/components/forms/comment";
 import { calculateRecipeRating } from "@/helpers";
 export default {
   name: "recipe-detail-page",
@@ -79,7 +84,12 @@ export default {
     RecipeImage,
     RecipeInfo,
     RateRecipe,
-    PostedBy
+    PostedBy,
+    Ingredients,
+    Instructions,
+    CommentForm,
+    CommentList,
+    SimilarRecipes
   },
   data() {
     return {
