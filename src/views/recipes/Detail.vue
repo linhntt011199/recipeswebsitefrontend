@@ -66,12 +66,20 @@
 import { mapGetters, mapActions } from "vuex";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import Spinner from "@/components/shared/Spinner";
+import RecipeImage from "@/components/recipes/detail/RecipeImage";
+import RecipeInfo from "@/components/recipes/detail/RecipeInfo";
+import RateRecipe from "@/components/recipes/detail/RateRecipe";
+import PostedBy from "@/components/recipes/detail/PostedBy";
 import { calculateRecipeRating } from "@/helpers";
 export default {
   name: "recipe-detail-page",
   components: {
     Breadcrumbs,
-    Spinner
+    Spinner,
+    RecipeImage,
+    RecipeInfo,
+    RateRecipe,
+    PostedBy
   },
   data() {
     return {
