@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe-type">
+  <div class="recipe-type-page">
     <recipe-type-header :recipe-type-info="recipeTypeInfo[0]" />
     <div class="recipe-type-main">
       <breadcrumbs :breadcrumb-links="breadcrumbLinks" />
@@ -7,7 +7,7 @@
       <div v-if="isLoading" class="spinner">
         <spinner
           :message="`Loading ${recipeTypeInfo[0].name} Recipes`"
-          size="huge"
+          :size="50"
         />
       </div>
       <div v-else-if="error">{{ error }}</div>
@@ -128,6 +128,12 @@ export default {
     flex: 1;
     padding-top: 1rem;
     margin: 1rem;
+
+    &--loading {
+      justify-content: center;
+      align-items: center;
+    }
+
     @include mediumDevices {
       margin: 0 5rem 2rem;
     }

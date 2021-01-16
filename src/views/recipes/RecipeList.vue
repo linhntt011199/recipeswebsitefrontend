@@ -1,11 +1,14 @@
 <template>
-    <div class="recipe-list-page">
+    <div
+    class="recipe-list-page"
+    :class="{ 'recipe-list-page--loading': isLoading }"
+    >
         <spinner v-if="isLoading" message="Loading Recipes" :size="50"/>
         <p v-else-if="error">{{ error }}</p>
         <div v-else>
-            <div v-if="recipeList.length === 0" class="empty-recipe-list">
+            <p v-if="recipeList.length === 0" class="empty-recipe-list">
                 Oops! Something went wrong
-            </div>
+            </p>
             <div v-else class="recipe-list-content">
                 <breadcrumbs :breadcrumb-links="breadcrumbLinks" />
                 <div v-if="recipeList.length === 0" class="empty-recipe-list">
@@ -136,10 +139,14 @@ export default {
     &-page {
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
         padding-top: 0.5rem;
         min-height: 50vh;
+
+        &--loading {
+            justify-content: center;
+            align-items: center;
+        }
 
         &--loading {
             justify-content: center;
