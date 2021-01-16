@@ -143,6 +143,6 @@ p {
   margin: 0;
 }
 .add-recipe {
-  top: 89vh;
+  bottom: 1rem;
 }
 </style>

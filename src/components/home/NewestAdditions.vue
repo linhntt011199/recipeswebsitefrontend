@@ -101,13 +101,13 @@ export default {
   flex-direction: column;
 }
 .recipe {
-  padding: 1rem 1rem 0.5rem;
+  padding: 1rem 1rem 1rem;
   &:nth-of-type(odd) {
     background-color: #efefef;
   }
   &:nth-of-type(even) {
-    padding-top: 0.5rem;
-    padding-bottom: 0;
+    padding-top: 0.75rem;
+    padding-bottom: 0.5rem;
   }
   &-row {
     display: flex;
@@ -115,11 +115,11 @@ export default {
   }
   &-col {
     &--info {
-      flex-basis: 65%;
+      flex-basis: 55%;
       padding-right: 1rem;
     }
     &--img {
-      flex-basis: 35%;
+      flex-basis: 45%;
     }
   }
   &-title {

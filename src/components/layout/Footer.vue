@@ -2,8 +2,8 @@
   <v-footer v-bind="localAttrs" class="footer">
     <v-card flat tile width="100%" class="footer-card text-center">
       <v-card-text>
-        <v-btn v-for="icon in icons" :key="icon" class="mx-4" icon>
-          <v-icon size="24px">{{ icon }}</v-icon>
+        <v-btn v-for="icon in icons" :key="icon" class="mx-4" icon :aria-label="`share app on ${icon}`">
+          <v-icon size="24px">{{ `fab fa-${icon}` }}</v-icon>
         </v-btn>
       </v-card-text>
 
@@ -23,10 +23,7 @@ export default {
     return {
       currentYear: new Date().getFullYear(),
       icons: [
-        "fab fa-twitter",
-        "fab fa-facebook",
-        "fab fa-google-plus",
-        "fab fa-reddit"
+        "twitter", "facebook", "google-plus", "reddit"
       ],
       items: ["default", "absolute", "fixed"],
       variant: "default"

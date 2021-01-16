@@ -12,26 +12,35 @@
       </div>
       <div v-else-if="error">{{ error }}</div>
       <div v-else>
-        <div v-if="recipeListByType.length === 0" class="empty-recipe-list">
+        <!-- <div v-if="recipeListByType.length === 0" class="empty-recipe-list">
           There are currently no {{ recipeType }} recipes in the database
         </div>
         <recipe-list
           v-else
           :recipe-list="recipeListByType"
           :recipe-type="recipeType"
-        />
+        /> -->
+        <div v-if="recipeList.length === 0" class="empty-recipe-list">
+          There are currently no {{ recipeType }} recipes in the database
+        </div>
+        <recipe-list
+          v-else
+          :recipe-list="recipeList"
+          :recipe-type="recipeType"
+        /> 
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+// import { mapGetters, mapActions } from "vuex";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import Spinner from "@/components/shared/Spinner";
 import RecipeList from "@/components/recipes/shared/RecipeList";
 import RecipeTypeHeader from "@/components/recipes/type/Header";
 import { recipeTypeList } from "@/helpers";
+import axios from "axios";
 export default {
   name: "recipe-type-page",
   components: {
@@ -44,11 +53,12 @@ export default {
     return {
       recipeType: this.$route.params.recipeType,
       isLoading: false,
-      error: null
+      error: null,
+      recipeList: [],
     };
   },
   computed: {
-    ...mapGetters({ recipeListByType: "recipes/recipeListByType" }),
+    // ...mapGetters({ recipeListByType: "recipes/recipeListByType" }),
     recipeTypeInfo() {
       return recipeTypeList.filter(
         recipeType => recipeType.path === this.recipeType
@@ -67,19 +77,42 @@ export default {
       ];
     }
   },
-  methods: {
-    ...mapActions({ getRecipesByType: "recipes/getRecipesByType" })
-  },
+  // methods: {
+  //   ...mapActions({ getRecipesByType: "recipes/getRecipesByType" })
+  // },
+  // async created() {
+  //   this.isLoading = true;
+  //   try {
+  //     await this.getRecipesByType({ recipeType: this.recipeType });
+  //     this.isLoading = false;
+  //   } catch (error) {
+  //     this.error = error;
+  //     this.isLoading = false;
+  //   }
+  // }
   async created() {
-    this.isLoading = true;
-    try {
-      await this.getRecipesByType({ recipeType: this.recipeType });
-      this.isLoading = false;
-    } catch (error) {
-      this.error = error;
-      this.isLoading = false;
-    }
-  }
+        if (this.recipeList.length === 0) {
+        this.isLoading = true;
+
+        try {
+            await axios.get("http://localhost:3000/api/v1/recipes", {
+            headers: { Authorization: this.$store.getters.getToken }
+            })
+            .then(response => this.recipeList = response.data) 
+            // {
+            //   this.$store.commit('setToken', response.data.auth_token);
+            //   this.$store.commit('setRecipeList', response.data.recipeList);
+
+            // })
+            .catch(e => e);
+
+            this.isLoading = false;
+        } catch (error) {
+            this.error = error;
+            this.isLoading = false;
+        }
+        }
+    },
 };
 </script>
 

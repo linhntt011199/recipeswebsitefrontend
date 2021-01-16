@@ -19,7 +19,7 @@ export default {
       required: true
     },
     currentRecipeType: {
-      type: String
+      type: Array
     }
   },
   data() {
