@@ -21,7 +21,7 @@
           </div>
           <div class="recipe-col recipe-col--img">
             <!-- <router-link :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`"> -->
-              <img :src="recipe.image" :alt="recipe.title" class="image" />
+              <img :src="'http://localhost:3000' + recipe.image" :alt="recipe.title" class="image" />
             <!-- </router-link> -->
           </div>
         </div>

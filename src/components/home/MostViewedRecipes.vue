@@ -17,7 +17,7 @@
             aspect-ratio="1"
             height="185"
             max-height="200"
-            :src="recipe.image"
+            :src="'http://localhost:3000' + recipe.image"
             :alt="recipe.title"
             class="recipe-image"
           >

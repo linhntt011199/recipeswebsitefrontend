@@ -4,30 +4,30 @@
 
     <p class="help-text">Please enter instructions in order</p>
 
-    <form @submit.prevent="addInstruction" class="instructions-form">
+    <form @submit.prevent="addInstruction" class="instruction-form">
       <v-text-field
-        v-model="instructions"
+        v-model="instruction"
         append-icon="mdi-plus"
         label="Enter Instructions"
         required
         filled
         :error-messages="instructionErrors"
-        @input="$v.instructions.$touch()"
-        @blur="$v.instructions.$touch()"
+        @input="$v.instruction.$touch()"
+        @blur="$v.instruction.$touch()"
       ></v-text-field>
     </form>
 
     <v-list dense v-show="instructions.length > 0" class="instructions-preview">
       <v-list-item
-        v-for="(instructions, index) in instructions"
+        v-for="(instruction, index) in instructions"
         :key="index"
-        class="instructions-list-item"
+        class="instruction-list-item"
       >
         <v-list-item-content>
-          <v-list-item-title v-text="instructions"></v-list-item-title>
+          <v-list-item-title v-text="instruction"></v-list-item-title>
         </v-list-item-content>
-        <v-list-item-icon @click="removeInstruction(instructions)">
-          <v-icon class="instructions-list-cancel">mdi-close-circle</v-icon>
+        <v-list-item-icon @click="removeInstruction(instruction)">
+          <v-icon class="instruction-list-cancel">mdi-close-circle</v-icon>
         </v-list-item-icon>
       </v-list-item>
     </v-list>

@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+// import { mapGetters, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 import axios from 'axios'
@@ -186,10 +186,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      isAuthenticated: "auth/isAuthenticated",
-      currentUser: "users/currentUser"
-    }),
+    // ...mapGetters({
+    //   isAuthenticated: "auth/isAuthenticated",
+    //   currentUser: "users/currentUser"
+    // }),
     submitBtnLabel() {
       return this.actionType === "add-recipe"
         ? "Submit Recipe"
@@ -228,15 +228,6 @@ export default {
         errors.push("Preparation time must be greater than zero minutes.");
       return errors;
     },
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
-    },
-    user() {
-      return this.$store.getters.getUser;
-    },
-    getErrors() {
-      return this.$store.getters.getErrors;
-    },
 
     cookingTimeErrors() {
       const errors = [];
@@ -247,19 +238,26 @@ export default {
         errors.push("Cooking time must be greater than zero minutes.");
       return errors;
     },
+
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+    userId() {
+      return this.$store.getters.getUserId;
+    }
   },
   methods: {
-    ...mapActions({
-      addRecipe: "recipes/addRecipe",
-      editAndUpdateRecipe: "recipes/editAndUpdateRecipe"
-    }),
+    // ...mapActions({
+    //   addRecipe: "recipes/addRecipe",
+    //   editAndUpdateRecipe: "recipes/editAndUpdateRecipe"
+    // }),
     selectRecipeImage(image) {
       this.image = image;
     },
-    selectRecipeType(category) {
+    selectRecipeType(recipeType) {
       this.newRecipe = {
         ...this.newRecipe,
-        category
+        recipeType
       };
     },
     selectRecipeDifficulty(difficulty) {
@@ -284,32 +282,36 @@ export default {
       if (this.isAuthenticated) {
         this.newRecipe = {
           ...this.newRecipe,
+          image: this.image,
           title: this.title,
           description: this.description,
-          servings: this.servings,
+          serving: this.servings,
           preparation_time: this.prepTime,
-          cookingTime: this.cookingTime,
+          cooking_time: this.cookingTime,
           vegetarian: this.isVegetarian,
           rating: 0,
           views: 0,
-          id: this.user().id,
+          // user_id: this.userId(),
           // ratedBy: [],
           // likedBy: [],
           // bookmarkedBy: [],
           // comments: [],
-          created_at: new Date().toLocaleString(),
-          updated_at: new Date().toLocaleString()
-        };
+          // created_at: new Date().toLocaleString(),
+          // updated_at: new Date().toLocaleString()
+        }
+        console.log(this.newRecipe);
         this.isLoading = true;
         try {
-          console.log("Here");
-          await axios({
-            method: 'post',
-            url: 'http://localhost:3000/api/v1/recipes',
-            headers: { Authorization: this.$store.getters.getToken },
-            data: JSON.parse(JSON.stringify(this.newRecipe))
+          await axios.post("http://localhost:3000/api/v1/recipes", {
+            headers: { 
+              Authorization: this.$store.getters.getToken, 
+              'Content-Type': 'multipart/form-data'
+            },
+            data: this.newRecipe,
+          }).then(() => {
+            this.isLoading = false;
+            this.$router.push('/recipes');
           })
-          this.isLoading = false;
         } catch (error) {
           this.error = error;
           this.isLoading = false;
@@ -319,7 +321,7 @@ export default {
     async submitUpdatedRecipe() {
       if (
         this.isAuthenticated &&
-        this.recipeToEdit.addedBy.id === this.currentUser.id
+        this.recipeToEdit.user_id === this.userId()
       ) {
         this.updatedFields = {
           ...this.updatedFields,
@@ -327,14 +329,13 @@ export default {
         };
         this.isLoading = true;
         try {
-          await this.editAndUpdateRecipe({
+          await axios.patch("http://localhost:3000/api/v1/recipes/" + this.recipeToEdit.id, {
+            headers: { Authorization: this.$store.getters.getToken },
             updatedFields: JSON.parse(JSON.stringify(this.updatedFields)),
-            image: this.image,
-            recipeId: this.$route.params.recipeId,
-            router: this.$router
-          });
-          this.error = null;
-          this.isLoading = false;
+          }).then(() => {
+            this.error = null;
+            this.isLoading = false;
+          })
         } catch (error) {
           this.error = error;
           this.isLoading = false;

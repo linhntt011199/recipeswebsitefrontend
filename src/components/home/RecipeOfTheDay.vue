@@ -1,7 +1,7 @@
 <template>
   <section class="recipe-of-the-day">
     <img
-      :src="recipeOfTheDay.image"
+      :src="'http://localhost:3000' + recipeOfTheDay.image"
       :alt="recipeOfTheDay.title"
       class="image"
     />
