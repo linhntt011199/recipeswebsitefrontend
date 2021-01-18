@@ -17,7 +17,10 @@
                 <section v-else class="recipe-list-grid">
                     <sort-recipe-list @sortRecipeListBy="sortRecipeList" />
                     <recipe-list class="recipe-list" :recipe-list="sortedRecipeList" />
-                    <!-- <br /> -->
+                    <br />
+                    <!-- <infinite-loading @infinite="loadMoreRecipes"> -->
+                        <spinner slot="spinner" message="Loading More Recipes" :size="35" />
+                    <!-- </infinite-loading> -->
                 </section>
             </div>
         </div>
@@ -49,10 +52,11 @@ export default {
                     path: ""
                 }
             ],
-            sortBy: "lastest",
+            sortBy: "newest",
             isLoading: false,
             error: null,
             recipeList: [],
+            recipeListTotalSize: 0,
         };
     },
 
@@ -60,7 +64,7 @@ export default {
         // ...mapGetters({recipeList: "recipes/recipeList"}),
         sortedRecipeList() {
             let sortedList;
-
+            console.log(this.sortBy);
             switch (this.sortBy) {
                 case "newest":
                     sortedList = [...this.recipeList].sort(sortMethods.byNewest);
@@ -80,29 +84,36 @@ export default {
                 default:
                     sortedList = this.recipeList;
             }
+            // console.log(sortedList);
             return sortedList;
         }
     },
-    // methods: {
-    //     ...mapActions({ getAllRecipes: "recipes/getAllRecipes" })
-    // },
-    // async created() {
-    //     if (this.recipeList.length === 0) {
-    //         this.isLoading = true;
+    methods: {
+        // ...mapActions({ getAllRecipes: "recipes/getAllRecipes" }),
+        sortRecipeList(sortBy) {
+            this.sortBy = sortBy;
+        },
+    },
 
-    //         try {
-    //             await this.getAllRecipes();
+    // async loadMoreRecipes($state) {
+    //     if (this.recipeListTotalSize === this.recipeList.length) {
+    //         $state.complete();
+    //     }
 
-    //             this.$eventBus.$on("sort-recipe-list", payload => {
-    //                 this.sortBy = payload;
-    //             });
-    //             this.isLoading = false;
-    //         } catch (error) {
-    //             this.error = error;
-    //             this.isLoading = false;
-    //         }
+    //     this.isLoadingMore = true;
+
+    //     try {
+    //         await this.recipeListTotalSize++;
+
+    //         $state.loaded();
+    //         this.error = null;
+    //         this.isLoadingMore = false;
+    //     } catch (error) {
+    //         this.error = error;
+    //         this.isLoadingMore = false;
     //     }
     // },
+
     async created() {
         if (this.recipeList.length === 0) {
         this.isLoading = true;
@@ -111,7 +122,10 @@ export default {
             await axios.get("http://localhost:3000/api/v1/recipes", {
             headers: { Authorization: this.$store.getters.getToken }
             })
-            .then(response => this.recipeList = response.data) 
+            .then(response => {
+                this.recipeList = response.data;
+                this.recipeListTotalSize = this.recipeList.length;
+            })
             // {
             //   this.$store.commit('setToken', response.data.auth_token);
             //   this.$store.commit('setRecipeList', response.data.recipeList);

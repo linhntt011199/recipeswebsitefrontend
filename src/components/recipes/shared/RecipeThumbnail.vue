@@ -1,7 +1,7 @@
 <template>
   <article class="recipe">
     <router-link
-      :to="generateRecipeLink(recipe.category.replace(' & ', '-').toLowerCase(), recipe.id)"
+      :to="generateRecipeLink(recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' '), recipe.id)"
       class="recipe-link"
     >
       <v-img
@@ -9,21 +9,20 @@
         aspect-ratio="1"
         height="225"
         max-height="275"
-        :src="recipe.image"
+        :src="'http://localhost:3000' + recipe.image"
         :alt="recipe.title"
         class="recipe-image"
       />
       <div class="recipe-info">
         <p class="recipe-name">{{ recipe.title }}</p>
         <p class="recipe-desc">{{ truncatedDescription }}</p>
-        <p class="recipe-type">{{ recipe.category.toUpperCase() }}</p>
         <p class="recipe-added-at">
           by
           <router-link
             :to="{
               name: 'profile',
               params: {
-                userId: recipe.userId,
+                userId: recipe.user_id,
                 fullname: recipe.user_name
               }
             }"
@@ -57,19 +56,22 @@ export default {
       return this.recipe.description.slice(0, limit) + "...";
     },
 
-    timeSinceRecipeAddition() {
-      const formattedDate = date => new Date(date).toLocaleDateString();
+    filters: {
+      moment: function (date) {
+        return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+      }
+    },
 
-      return moment(formattedDate(this.recipe.created_at), "MM/DD/YYYY").fromNow();
+    timeSinceRecipeAddition() {
+      return moment(this.recipe.created_at).fromNow();
     }
   },
 
   methods: {
     generateRecipeLink(recipeTypes, recipeId) {
-      // const index = Math.floor(Math.random() * recipeTypes.length);
+      const index = Math.floor(Math.random() * recipeTypes.length);
 
-      // const recipeType = encodeURI(recipeTypes[index]);
-      const recipeType = encodeURI(recipeTypes);
+      const recipeType = encodeURI(recipeTypes[index]);
 
       return `/recipes/${recipeType}/${recipeId}`;
     }

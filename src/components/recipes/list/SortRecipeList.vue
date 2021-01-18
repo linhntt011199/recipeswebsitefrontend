@@ -45,7 +45,7 @@ export default {
     methods: {
         sortRecipeList($sortBy) {
             this.sortBy = $sortBy;
-            this.$eventBus.$emit("sortRecipeListBy", $sortBy);
+            this.$emit("sortRecipeListBy", $sortBy);
         }
     }
 };
