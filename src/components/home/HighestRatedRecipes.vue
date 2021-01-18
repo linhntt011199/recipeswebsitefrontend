@@ -23,12 +23,12 @@
           >
           </v-img>
           <v-card-title class="recipe-title">
-            <!-- <router-link
-              :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`"
+            <router-link
+              :to="`/recipes/${recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0]}/${recipe.id}`"
               class="recipe-link"
               >{{ recipe.title }}</router-link
-            > -->
-            {{ recipe.title }}
+            >
+            <!-- {{ recipe.title }} -->
           </v-card-title>
           <p class="recipe-rating">
             <em
@@ -60,7 +60,10 @@ export default {
       return [...this.recipeList]
         .sort(sortMethods.byRating)
         .slice(0, 8);
-    }
+    },
+    // getRecipeList () {
+    //   return this.$store.getters.recipeList;
+    // }
   },
   // methods: {
   //   generateRecipeLink(recipeTypes, recipeId) {
@@ -72,19 +75,21 @@ export default {
   async created() {
     if (this.recipeList.length === 0) {
       this.isLoading = true;
-
+      // this.recipeList = this.getRecipeList();
+      // console.log(this.recipeList);
+      // this.isLoading = false;
       try {
         await axios.get("http://localhost:3000/api/v1/recipes", {
           headers: { Authorization: this.$store.getters.getToken }
         })
-        .then(response => this.recipeList = response.data) 
+        .then(response => this.recipeList = response.data)
         // {
         //   this.$store.commit('setToken', response.data.auth_token);
         //   this.$store.commit('setRecipeList', response.data.recipeList);
 
         // })
         .catch(e => e);
-
+        console.log(this.recipeList);
         this.isLoading = false;
       } catch (error) {
         this.error = error;

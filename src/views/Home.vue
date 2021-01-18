@@ -69,9 +69,6 @@ export default {
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
     },
-    // recipeList () {
-    //   return this.$store.getters.recipeList;
-    // }
   },
 
   // filters: {
@@ -99,12 +96,10 @@ export default {
         await axios.get("http://localhost:3000/api/v1/recipes", {
           headers: { Authorization: this.$store.getters.getToken }
         })
-        .then(response => this.recipeList = response.data) 
-        // {
-        //   this.$store.commit('setToken', response.data.auth_token);
-        //   this.$store.commit('setRecipeList', response.data.recipeList);
-
-        // })
+        .then(response => {
+          this.recipeList = response.data
+          this.$store.commit('setRecipeList', response.data);
+        }) 
         .catch(e => e);
 
         this.isLoading = false;

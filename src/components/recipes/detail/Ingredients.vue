@@ -1,21 +1,24 @@
 <template>
-  <section class="instructions">
-    <h3 class="title">Instructions</h3>
+  <section class="ingredients">
+    <h3 class="title">Ingredients</h3>
     <hr class="divider" />
-    <template v-for="(instruction, index) in instructions">
-      <div class="instruction" :key="index">
-        <span class="instruction-step">{{ index + 1 }}</span>
-        <p class="instruction-detail">{{ instruction }}</p>
-      </div>
-    </template>
+    <ul class="ingredients-list">
+      <li
+        v-for="(ingredient, index) in ingredients"
+        :key="index"
+        class="ingredient"
+      >
+        {{ ingredient }}
+      </li>
+    </ul>
   </section>
 </template>
 
 <script>
 export default {
-  name: "instructions",
+  name: "ingredients",
   props: {
-    instructions: {
+    ingredients: {
       type: Array,
       required: true
     }
@@ -25,12 +28,18 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../scss/style";
-.instructions {
-  padding: 1rem;
-  background-color: $white;
+
+.ingredients {
+  margin: 1rem;
+
   @include mediumDevices {
-    background-color: transparent;
-    flex-basis: 60%;
+    margin: 1rem 3rem 1rem 1rem;
+    flex-basis: 40%;
+  }
+
+  &-list {
+    list-style: none;
+    padding: 0;
   }
 }
 .title {
@@ -41,21 +50,14 @@ export default {
   border-bottom: none;
   margin: 0.5rem 0 1rem;
 }
-.instruction {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  &-step {
-    align-self: flex-start;
-    margin-top: 0.25rem;
-    padding: 0.25rem 0.725rem 0.35rem;
-    border-radius: 50%;
-    color: $white;
-    background-color: $app-main-color;
+.ingredient {
+  padding: 0.5rem 0;
+
+  &:first-child {
+    padding-top: 0;
   }
-  &-detail {
-    text-align: justify;
-    margin-left: 0.5rem;
+  &:last-child {
+    padding-bottom: 0;
   }
 }
 </style>

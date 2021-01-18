@@ -11,18 +11,18 @@
               >
             </h4>
             <p class="recipe-name">
-              <!-- <router-link
-                :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`"
+              <router-link
+                :to="`/recipes/${recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0]}/${recipe.id}`"
                 class="recipe-name-link"
                 >{{ recipe.title }}</router-link
-              > -->
-              {{recipe.title}}
+              >
+              <!-- {{recipe.title}} -->
             </p>
           </div>
           <div class="recipe-col recipe-col--img">
-            <!-- <router-link :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`"> -->
+            <router-link :to="`/recipes/${recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0]}/${recipe.id}`">
               <img :src="'http://localhost:3000' + recipe.image" :alt="recipe.title" class="image" />
-            <!-- </router-link> -->
+            </router-link>
           </div>
         </div>
       </v-flex>

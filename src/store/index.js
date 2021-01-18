@@ -69,7 +69,7 @@ export default new Vuex.Store({
     getErrors(state) {
       return state.errors;
     },
-    recipeList (state) {
+    getRecipeList (state) {
       return state.recipeList;
     }
   },

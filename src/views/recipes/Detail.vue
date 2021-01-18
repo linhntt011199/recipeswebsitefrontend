@@ -11,19 +11,19 @@
         <breadcrumbs :breadcrumb-links="breadcrumbLinks" />
         <h2 class="recipe-name">
           {{ recipe.name }}
-          <span v-if="currentUser && currentUser.id === recipe.addedBy.id">
+          <span v-if="currentUser && currentUser.id === recipe.user_id">
             <router-link :to="`${fullPath}/edit`">
               <i class="far fa-edit recipe-edit" aria-label="Edit recipe"></i>
             </router-link>
-            <delete-recipe :recipe-name="recipe.name" />
+            <delete-recipe :recipe-name="recipe.title" />
           </span>
         </h2>
-        <p v-if="recipe.ratedBy.length > 0" class="recipe-rating">
+        <!-- <p v-if="recipe.ratedBy.length > 0" class="recipe-rating">
           Rated
           <span class="recipe-rating-value">{{ recipeRating }}</span
           >/5 by {{ recipe.ratedBy.length }}
           {{ recipe.ratedBy.length === 1 ? "person" : "people" }}
-        </p>
+        </p> -->
         <p class="recipe-views">
           <em
             >(Viewed {{ recipe.views }} time{{
@@ -33,18 +33,18 @@
         </p>
         <recipe-image
           :current-user="currentUser"
-          :image-url="recipe.imageUrl"
+          :image-url="'http://localhost:3000' + recipe.image"
         />
 
         <recipe-info :recipe="recipe" />
 
         <rate-recipe v-if="currentUser" :rated-by="recipe.ratedBy" />
 
-        <posted-by :posted-by="recipe.addedBy" />
+        <posted-by :posted-by="recipe.user_id" />
 
         <div class="ingredients-and-instructions">
-          <ingredients :ingredients="recipe.ingredients" />
-          <instructions :instructions="recipe.instructions" />
+          <ingredients :ingredients="recipe.ingredients.replace(/[^a-zA-Z ,]/g, '').split(',')" />
+          <instructions :instructions="recipe.instructions.replace(/[^a-zA-Z ,]/g, '').split(',')" />
         </div>
 
         <div class="comments-and-similar">
@@ -63,7 +63,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+// import { mapGetters, mapActions } from "vuex";
+import axios from "axios";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import Spinner from "@/components/shared/Spinner";
 import RecipeImage from "@/components/recipes/detail/RecipeImage";
@@ -75,7 +76,7 @@ import Instructions from "@/components/recipes/detail/Instructions";
 import CommentList from "@/components/recipes/detail/CommentList";
 import SimilarRecipes from "@/components/recipes/detail/SimilarRecipes";
 import CommentForm from "@/components/forms/comment";
-import { calculateRecipeRating } from "@/helpers";
+// import { calculateRecipeRating } from "@/helpers";
 export default {
   name: "recipe-detail-page",
   components: {
@@ -100,13 +101,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      currentUser: "users/currentUser",
-      recipe: "recipes/recipe"
-    }),
-    recipeRating() {
-      return calculateRecipeRating(this.recipe.ratedBy);
-    },
+    // ...mapGetters({
+    //   currentUser: "users/currentUser",
+    //   recipe: "recipes/recipe"
+    // }),
+    // recipeRating() {
+    //   return calculateRecipeRating(this.recipe.ratedBy);
+    // },
     breadcrumbLinks() {
       return [
         {
@@ -122,6 +123,9 @@ export default {
           path: ""
         }
       ];
+    },
+    currentUser() {
+      return this.$store.getters.getUser;
     }
   },
   watch: {
@@ -129,19 +133,26 @@ export default {
       this.recipeId = id;
     }
   },
-  methods: {
-    ...mapActions({
-      getRecipeById: "recipes/getRecipeById",
-      incrementRecipeViews: "recipes/incrementRecipeViews"
-    })
-  },
+  // methods: {
+  //   ...mapActions({
+  //     getRecipeById: "recipes/getRecipeById",
+  //     incrementRecipeViews: "recipes/incrementRecipeViews"
+  //   })
+  // },
   async created() {
     if (!this.recipe || this.recipe.id !== this.recipeId) {
       this.isLoading = true;
       try {
-        await this.getRecipeById({ recipeId: this.recipeId });
-        await this.incrementRecipeViews({ recipeId: this.recipeId });
-        this.isLoading = false;
+        await axios.get(
+          "http://localhost:3000/api/v1/recipes/" + this.recipeId,
+        // await this.getRecipeById({ recipeId: this.recipeId });
+        // await this.incrementRecipeViews({ recipeId: this.recipeId });
+        )
+        .then(response => {
+          this.isLoading = false;
+          this.recipe = response.data
+        })
+        .catch(e => e);
       } catch (error) {
         this.error = error;
         this.isLoading = false;

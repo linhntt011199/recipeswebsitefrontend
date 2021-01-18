@@ -23,12 +23,12 @@
           >
           </v-img>
           <v-card-title class="recipe-title">
-            <!-- <router-link
-              :to="`/recipes/${recipe.recipeType[0]}/${recipe.id}`"
+            <router-link
+              :to="`/recipes/${recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0]}/${recipe.id}`"
               class="recipe-link"
               >{{ recipe.title }}</router-link
-            > -->
-            {{ recipe.title }}
+            >
+            <!-- {{ recipe.title }} -->
           </v-card-title>
           <p class="recipe-views">
             <em>Viewed {{ recipe.views }} times</em>

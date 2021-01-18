@@ -6,15 +6,15 @@
     </div>
     <div class="info">
       <p class="info-label">Yield</p>
-      <p class="info-value">{{ recipe.servings }}</p>
+      <p class="info-value">{{ recipe.serving }}</p>
     </div>
     <div class="info">
       <p class="info-label">Prep Time</p>
-      <p class="info-value">{{ convertMinToHrs(recipe.prepTime) }}</p>
+      <p class="info-value">{{ convertMinToHrs(recipe.preparation_time) }}</p>
     </div>
     <div class="info">
       <p class="info-label">Cooking Time</p>
-      <p class="info-value">{{ convertMinToHrs(recipe.cookingTime) }}</p>
+      <p class="info-value">{{ convertMinToHrs(recipe.cooking_time) }}</p>
     </div>
     <div class="info">
       <p class="info-label">Total Time</p>
@@ -35,7 +35,7 @@ export default {
   computed: {
     totalTime() {
       const totalMinutes =
-        Number(this.recipe.prepTime) + Number(this.recipe.cookingTime);
+        Number(this.recipe.preparation_time) + Number(this.recipe.cooking_time);
       return this.convertMinToHrs(totalMinutes);
     },
     difficulty() {
