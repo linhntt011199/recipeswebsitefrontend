@@ -78,7 +78,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
+import axios from "axios";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -128,24 +129,35 @@ export default {
       !this.$v.confirmPassword.sameAsPassword &&
         errors.push("The passwords entered do not match.");
       return errors;
-    }
+    },
+    currentUser() {
+      return this.$store.getters.getUser;
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
   },
   methods: {
-    ...mapActions({
-      updateUserPassword: "users/updateUserPassword"
-    }),
+    // ...mapActions({
+    //   updateUserPassword: "users/updateUserPassword"
+    // }),
     async submitPassword() {
       if (this.password === this.passwordConfirm) {
-        this.isLoading = true;
-        try {
-          await this.updateUserPassword({ password: this.password });
-          this.dialog = false;
-          this.error = null;
-          this.snackbar = true;
-          this.isLoading = false;
-        } catch (error) {
-          this.error = error;
-          this.isLoading = false;
+        if (this.isAuthenticated) {
+          this.isLoading = true;
+          try {
+            await axios.patch("http://localhost:3000/api/v1/users/" + this.currentUser.id, {
+              password: this.password,
+              password_confirmation: this.password,
+            })
+            this.dialog = false;
+            this.error = null;
+            this.snackbar = true;
+            this.isLoading = false;
+          } catch (error) {
+            this.error = error;
+            this.isLoading = false;
+          }
         }
       }
     }

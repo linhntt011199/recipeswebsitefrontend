@@ -10,17 +10,17 @@
       <div v-else class="recipes">
         <router-link
           v-for="recipe in recipeList"
-          :to="generateRecipeLink(recipe.recipeType, recipe.id)"
+          :to="generateRecipeLink(recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' '), recipe.id)"
           :key="recipe.id"
           class="recipe-link"
         >
           <figure class="recipe">
             <img
-              :src="recipe.imageUrl"
-              :alt="recipe.name"
+              :src="'http://localhost:3000' + recipe.image"
+              :alt="recipe.title"
               class="recipe-image"
             />
-            <figcaption class="recipe-name">{{ recipe.name }}</figcaption>
+            <figcaption class="recipe-name">{{ recipe.title }}</figcaption>
           </figure>
         </router-link>
       </div>
@@ -51,7 +51,9 @@ export default {
   },
   data() {
     return {
-      parentElementId: "uploaded-recipes"
+      parentElementId: "uploaded-recipes",
+      slicedRecipeList: [],
+      hasMoreRecipes: false
     };
   },
   computed: {
@@ -78,6 +80,21 @@ export default {
       const index = Math.floor(Math.random() * recipeTypes.length);
       const recipeType = encodeURI(recipeTypes[index]);
       return `/recipes/${recipeType}/${recipeId}`;
+    },
+
+    showMoreRecipes() {
+      if (!this.hasMoreRecipes) return;
+
+      const slicedRecipeListLength = this.slicedRecipeList.length;
+
+      const moreRecipes = this.recipeList.slice(
+        slicedRecipeListLength,
+        slicedRecipeListLength + 4
+      );
+
+      this.slicedRecipeList = [...this.slicedRecipeList, ...moreRecipes];
+      this.hasMoreRecipes =
+        this.recipeList.length > this.slicedRecipeList.length;
     }
   },
   created() {
@@ -88,6 +105,9 @@ export default {
     } else {
       this.parentElementId = "uploaded-recipes";
     }
+
+    this.slicedRecipeList = this.recipeList.slice(0, 4);
+    this.hasMoreRecipes = this.recipeList.length > this.slicedRecipeList.length;
   }
 };
 </script>

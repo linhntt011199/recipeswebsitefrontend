@@ -20,7 +20,7 @@
               name: 'profile',
               params: {
                 userId: follower.id,
-                fullname: follower.fullname
+                fullname: follower.full_name
               }
             }"
           >
