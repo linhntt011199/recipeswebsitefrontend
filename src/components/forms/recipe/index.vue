@@ -304,8 +304,8 @@ export default {
         try {
           await axios.post("http://localhost:3000/api/v1/recipes", {
             headers: { 
-              Authorization: this.$store.getters.getToken, 
-              'Content-Type': 'multipart/form-data'
+              'Content-Type': 'multipart/form-data',
+              Authorization: this.$store.getters.getToken,
             },
             data: this.newRecipe,
           }).then(() => {
