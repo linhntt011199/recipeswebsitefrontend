@@ -280,27 +280,37 @@ export default {
     },
     async submitNewRecipe() {
       if (this.isAuthenticated) {
-        // const recipe = new FormData();
-        // recipe.append('image', this.image);
-        // recipe.append('title', this.title);
-        // recipe.append('description', this.description);
-        // recipe.append('serving', this.servings);
-        // recipe.append('preparation_time', this.prepTime);
-        // recipe.append('cooking_time', this.cookingTime);
-        // recipe.append('vegetarian', this.isVegetarian);
-        // recipe.append('rating', 0);
-        // recipe.append('views', 0);
-        this.newRecipe = {
-          ...this.newRecipe,
-          image: this.image,
-          title: this.title,
-          description: this.description,
-          serving: this.servings,
-          preparation_time: this.prepTime,
-          cooking_time: this.cookingTime,
-          vegetarian: this.isVegetarian,
-          rating: 0,
-          views: 0,
+        const formData = new FormData();
+        for (var i = 0; i < this.newRecipe.recipeType.length; i++) {
+          formData.append('recipeType[]', this.newRecipe.recipeType[i]);
+        }
+        for (i = 0; i < this.newRecipe.ingredients.length; i++) {
+          formData.append('ingredients[]', this.newRecipe.ingredients[i]);
+        }
+        for (i = 0; i < this.newRecipe.instructions.length; i++) {
+          formData.append('instructions[]', this.newRecipe.instructions[i]);
+        }
+        formData.append('difficulty', this.newRecipe.difficulty);
+        formData.append('image', this.image);
+        formData.append('title', this.title);
+        formData.append('description', this.description);
+        formData.append('serving', this.servings);
+        formData.append('preparation_time', this.prepTime);
+        formData.append('cooking_time', this.cookingTime);
+        formData.append('vegetarian', this.isVegetarian);
+        formData.append('rating', 0);
+        formData.append('views', 0);
+        // const recipe = {
+        //   ...this.newRecipe,
+        //   image: this.image,
+        //   title: this.title,
+        //   description: this.description,
+        //   serving: this.servings,
+        //   preparation_time: this.prepTime,
+        //   cooking_time: this.cookingTime,
+        //   vegetarian: this.isVegetarian,
+        //   rating: 0,
+        //   views: 0,
           // user_id: this.userId,
           // ratedBy: [],
           // likedBy: [],
@@ -308,20 +318,27 @@ export default {
           // comments: [],
           // created_at: new Date().toLocaleString(),
           // updated_at: new Date().toLocaleString()
+        // }
+        for(var pair of formData.entries()) {
+          console.log(pair[0]+ ', '+ pair[1]); 
         }
-        console.log(this.newRecipe.image);
+        console.log(formData);
         this.isLoading = true;
+        const url = "http://localhost:3000/api/v1/recipes"
+        const config = { headers: {
+          Authorization: this.$store.getters.getToken,
+        } };
         try {
-          await axios.post("http://localhost:3000/api/v1/recipes", {
-            headers: { 
-              'Content-Type': 'multipart/form-data',
-              Authorization: this.$store.getters.getToken,
-            },
-            recipe: this.newRecipe
-          }).then(() => {
+          await axios.post(url, formData, config)
+          .then((response) => {
+            console.log(response)
             this.isLoading = false;
             this.$router.push('/recipes');
           })
+          .catch(errors => {
+            this.isLoading = false;
+            console.log(errors);
+          });
         } catch (error) {
           this.error = error;
           this.isLoading = false;

@@ -89,7 +89,7 @@ export default {
 
         // })
         .catch(e => e);
-        console.log(this.recipeList);
+        // console.log(this.recipeList);
         this.isLoading = false;
       } catch (error) {
         this.error = error;
