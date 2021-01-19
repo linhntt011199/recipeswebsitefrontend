@@ -1,22 +1,22 @@
 <template>
   <article class="recipe">
     <router-link
-      :to="generateRecipeLink(recipe.category.replace(' & ', '-').toLowerCase(), recipe.id)"
+      :to="generateRecipeLink(recipe.recipeType.replace(' & ', '-').toLowerCase(), recipe.id)"
       class="recipe-link"
     >
       <v-img
-        :lazy-src="require('@/assets/images/lazy-load.jpg')"
+        lazy-src="https://picsum.photos/id/11/10/6"
         aspect-ratio="1"
         height="225"
         max-height="275"
-        :src="recipe.image"
+        :src="'http://localhost:3000' + recipe.image"
         :alt="recipe.title"
         class="recipe-image"
       />
       <div class="recipe-info">
         <p class="recipe-name">{{ recipe.title }}</p>
         <p class="recipe-desc">{{ truncatedDescription }}</p>
-        <p class="recipe-type">{{ recipe.category.toUpperCase() }}</p>
+        <!-- <p class="recipe-type">{{ recipe.recipeType.replace(/[^a-zA-Z ]/g, '').toUpperCase() }}</p> -->
         <p class="recipe-added-at">
           by
           <router-link
@@ -30,7 +30,7 @@
             class="recipe-by"
             >{{ recipe.user_name }}</router-link
           >
-          {{ timeSinceRecipeAddition }}
+          <!-- {{ timeSinceRecipeAddition }} -->
         </p>
       </div>
     </router-link>

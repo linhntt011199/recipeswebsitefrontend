@@ -3,22 +3,23 @@
     <spinner v-if="isLoading" message="Loading Profile" :size="50" />
     <div v-else-if="error">{{ error }}</div>
     <div v-else>
-      <p v-if="!userById">
+      <p v-if="!user">
         Oops! Something went wrong
       </p>
-      <!-- <template v-else>
+      <template v-else>
         <div class="profile-page-content">
           <v-card class="mx-auto profile-user-items">
             <section class="section section--general-info">
               <div class="profile-info">
                 <img
                   :src="
-                    userById.imageUrl || require('@/assets/images/user.png')
+                    user.imageUrl || require('@/assets/images/user.png')
                   "
-                  :alt="userById.fullname"
+                  :alt="user.full_name"
                   class="profile-image"
                 />
-                <h3 class="profile-name">
+                
+                <!-- <h3 class="profile-name">
                   <span>{{ userById.fullname }}</span>
                   <span
                     class="edit-icon"
@@ -58,10 +59,10 @@
                         : `Follow ${userById.fullname}`
                     }}</span>
                   </v-tooltip>
-                </h3>
+                </h3> -->
               </div>
             </section>
-            <section class="section section--followers">
+            <!-- <section class="section section--followers">
               <follower-list
                 :is-current-user="
                   currentUser ? userById.id === currentUser.id : false
@@ -78,8 +79,8 @@
                 :follower-list="userById.followedBy"
                 follower-type="followerBy"
               />
-            </section>
-            <section class="section section--recipes">
+            </section> -->
+            <!-- <section class="section section--recipes">
               <profile-recipe-list
                 :is-current-user="
                   currentUser ? userById.id === currentUser.id : false
@@ -104,22 +105,23 @@
                 :recipe-list="userById.savedRecipes"
                 recipe-list-type="Saved"
               />
-            </section>
+            </section> -->
           </v-card>
           <account-actions />
         </div>
-      </template> -->
+      </template>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+// import { mapGetters, mapActions } from "vuex";
 import Spinner from "@/components/shared/Spinner";
 // import AccountActions from "@/components/profile/AccountActions";
 // import FollowerList from "@/components/profile/FollowerList";
 // import ProfileRecipeList from "@/components/profile/RecipeList";
 // import EditProfileForm from "@/components/forms/profile/Edit";
+import axios from "axios";
 export default {
   name: "profile-page",
   components: {
@@ -132,88 +134,99 @@ export default {
   data() {
     return {
       userId: this.$route.params.userId,
-      profileImage: null,
-      dialog: false,
-      isFollowing: false,
+      fullPath: this.$route.fullPath,
+      // profileImage: null,
+      // dialog: false,
+      // isFollowing: false,
       isLoading: false,
       error: null
     };
   },
   computed: {
-    ...mapGetters({
-      userById: "users/userById",
-      isAuthenticated: "auth/isAuthenticated",
-      currentUser: "users/currentUser"
-    }),
+    // ...mapGetters({
+    //   userById: "users/userById",
+    //   isAuthenticated: "auth/isAuthenticated",
+    //   currentUser: "users/currentUser"
+    // }),
     linkToEdit() {
       return `${this.$route.fullPath}/edit`;
+    },
+    currentUser() {
+      return this.$store.getters.getUser;
     }
   },
   watch: {
     async "$route.params.userId"(id) {
       this.userId = id;
+      // this.isLoading = true;
+      // try {
+      //   await this.getUserById({ userId: this.userId });
+      //   this.error = null;
+      //   this.isLoading = false;
+      // } catch (error) {
+      //   this.error = error;
+      //   this.isLoading = false;
+      // }
+    }
+  },
+  // methods: {
+  //   ...mapActions({
+  //     getUserById: "users/getUserById",
+  //     followUserProfile: "users/followUserProfile"
+  //   }),
+  //   openDialog() {
+  //     this.dialog = true;
+  //   },
+  //   closeDialog() {
+  //     this.dialog = false;
+  //   },
+  //   followUser() {
+  //     if (this.isAuthenticated && this.currentUser) {
+  //       const currentUserId = this.currentUser.id;
+  //       const currentProfile = this.userById;
+  //       let updatedFollowedByList;
+  //       let updatedFollowingList;
+  //       if (this.isFollowing) {
+  //         this.isFollowing = !this.isFollowing;
+  //         updatedFollowedByList = currentProfile.followedBy.filter(
+  //           userId => userId !== currentUserId
+  //         );
+  //         updatedFollowingList = this.currentUser.following.filter(
+  //           userId => userId !== currentProfile.id
+  //         );
+  //       } else {
+  //         this.isFollowing = !this.isFollowing;
+  //         updatedFollowedByList = [...currentProfile.followedBy, currentUserId];
+  //         updatedFollowingList = [...this.currentUser.following, this.userId];
+  //       }
+  //       this.followUserProfile({
+  //         userId: this.userId,
+  //         currentUserId,
+  //         following: updatedFollowingList,
+  //         followedBy: updatedFollowedByList
+  //       });
+  //     }
+  //   }
+  // },
+  // 
+  async created() {
+    if (!this.user || this.user.id !== this.userId) {
       this.isLoading = true;
       try {
-        await this.getUserById({ userId: this.userId });
-        this.error = null;
-        this.isLoading = false;
+        await axios.get(
+          "http://localhost:3000/api/v1/users/" + this.userId,
+        // await this.getRecipeById({ recipeId: this.recipeId });
+        // await this.incrementRecipeViews({ recipeId: this.recipeId });
+        )
+        .then(response => {
+          this.isLoading = false;
+          this.recipe = response.data
+        })
+        .catch(e => e);
       } catch (error) {
         this.error = error;
         this.isLoading = false;
       }
-    }
-  },
-  methods: {
-    ...mapActions({
-      getUserById: "users/getUserById",
-      followUserProfile: "users/followUserProfile"
-    }),
-    openDialog() {
-      this.dialog = true;
-    },
-    closeDialog() {
-      this.dialog = false;
-    },
-    followUser() {
-      if (this.isAuthenticated && this.currentUser) {
-        const currentUserId = this.currentUser.id;
-        const currentProfile = this.userById;
-        let updatedFollowedByList;
-        let updatedFollowingList;
-        if (this.isFollowing) {
-          this.isFollowing = !this.isFollowing;
-          updatedFollowedByList = currentProfile.followedBy.filter(
-            userId => userId !== currentUserId
-          );
-          updatedFollowingList = this.currentUser.following.filter(
-            userId => userId !== currentProfile.id
-          );
-        } else {
-          this.isFollowing = !this.isFollowing;
-          updatedFollowedByList = [...currentProfile.followedBy, currentUserId];
-          updatedFollowingList = [...this.currentUser.following, this.userId];
-        }
-        this.followUserProfile({
-          userId: this.userId,
-          currentUserId,
-          following: updatedFollowingList,
-          followedBy: updatedFollowedByList
-        });
-      }
-    }
-  },
-  async created() {
-    this.isLoading = true;
-    try {
-      await this.getUserById({ userId: this.userId });
-      this.error = null;
-      this.isLoading = false;
-    } catch (error) {
-      this.error = error;
-      this.isLoading = false;
-    }
-    if (this.currentUser && this.userById) {
-      this.isFollowing = this.userById.followedBy.includes(this.currentUser.id);
     }
   }
 };
