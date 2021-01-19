@@ -6,7 +6,12 @@
       class="image"
     />
     <p class="recipe-title">Recipe of the day</p>
-    <p class="recipe-name">{{ recipeOfTheDay.title }}</p>
+    <p class="recipe-name">
+      <router-link
+        :to="`/recipes/${recipeOfTheDay.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0]}/${recipeOfTheDay.id}`"
+        class="recipe-link"
+        >{{ recipeOfTheDay.title }}</router-link
+      ></p>
     <div class="recipe-added-by">
       <span>by</span>
       <router-link

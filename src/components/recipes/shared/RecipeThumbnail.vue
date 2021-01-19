@@ -1,11 +1,7 @@
 <template>
   <article class="recipe">
     <router-link
-<<<<<<< HEAD
-      :to="generateRecipeLink(recipe.recipeType.replace(' & ', '-').toLowerCase(), recipe.id)"
-=======
       :to="generateRecipeLink(recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' '), recipe.id)"
->>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
       class="recipe-link"
     >
       <v-img
@@ -20,10 +16,6 @@
       <div class="recipe-info">
         <p class="recipe-name">{{ recipe.title }}</p>
         <p class="recipe-desc">{{ truncatedDescription }}</p>
-<<<<<<< HEAD
-        <!-- <p class="recipe-type">{{ recipe.recipeType.replace(/[^a-zA-Z ]/g, '').toUpperCase() }}</p> -->
-=======
->>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
         <p class="recipe-added-at">
           by
           <router-link
@@ -37,7 +29,7 @@
             class="recipe-by"
             >{{ recipe.user_name }}</router-link
           >
-          <!-- {{ timeSinceRecipeAddition }} -->
+          {{ timeSinceRecipeAddition }}
         </p>
       </div>
     </router-link>

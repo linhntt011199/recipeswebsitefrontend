@@ -38,14 +38,14 @@ const routes = [{
                 "../views/recipes/NewRecipe.vue"
             ),
         // meta: {
-        //     title: "Add Your Recipe - Tasties",
+        //     title: "Add Your Recipe",
         //     metaTags: [{
         //             name: "description",
-        //             content: "The add new recipe page of Tasties"
+        //             content: "The add new recipe page"
         //         },
         //         {
         //             property: "og:description",
-        //             content: "The add new recipe page of Tasties"
+        //             content: "The add new recipe page"
         //         }
         //     ]
         // }
@@ -68,15 +68,15 @@ const routes = [{
                 "../views/recipes/RecipeType.vue"
             ),
         // meta: {
-        //   title: "Recipe Type - Tasties",
+        //   title: "Recipe Type",
         //   metaTags: [
         //     {
         //       name: "description",
-        //       content: "The recipe type page of Tasties"
+        //       content: "The recipe type page"
         //     },
         //     {
         //       property: "og:description",
-        //       content: "The recipe type page of Tasties"
+        //       content: "The recipe type page"
         //     }
         //   ]
         // }
@@ -88,15 +88,15 @@ const routes = [{
         component: () =>
           import(/* webpackChunkName: "edit-recipe" */ "../views/recipes/Edit.vue"),
         meta: {
-          title: "Edit Recipe - Tasties",
+          title: "Edit Recipe",
           metaTags: [
             {
               name: "description",
-              content: "The edit recipe page of Tasties"
+              content: "The edit recipe page"
             },
             {
               property: "og:description",
-              content: "The edit recipe page of Tasties"
+              content: "The edit recipe page"
             }
           ]
         }
@@ -108,15 +108,15 @@ const routes = [{
         component: () =>
           import(/* webpackChunkName: "profile" */ "../views/profile"),
         meta: {
-          title: "Profile - Tasties",
+          title: "Profile",
           metaTags: [
             {
               name: "description",
-              content: "The user profile page of Tasties"
+              content: "The user profile page"
             },
             {
               property: "og:description",
-              content: "The user profile page of Tasties"
+              content: "The user profile page"
             }
           ]
         }
@@ -130,15 +130,15 @@ const routes = [{
             "../views/recipes/Detail.vue"
           ),
       //   meta: {
-      //     title: "Recipe Detail - Tasties",
+      //     title: "Recipe Detail",
       //     metaTags: [
       //       {
       //         name: "description",
-      //         content: "The recipe detail page of Tasties"
+      //         content: "The recipe detail page"
       //       },
       //       {
       //         property: "og:description",
-      //         content: "The recipe detail page of Tasties"
+      //         content: "The recipe detail page"
       //       }
       //     ]
       // }

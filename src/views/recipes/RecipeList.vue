@@ -16,16 +16,11 @@
                 </div>
                 <section v-else class="recipe-list-grid">
                     <sort-recipe-list @sortRecipeListBy="sortRecipeList" />
-<<<<<<< HEAD
-                    <recipe-list class="recipe-list" :recipe-list="recipeList" />
-                    <br />
-=======
                     <recipe-list class="recipe-list" :recipe-list="sortedRecipeList" />
                     <br />
                     <!-- <infinite-loading @infinite="loadMoreRecipes"> -->
                         <spinner slot="spinner" message="Loading More Recipes" :size="35" />
                     <!-- </infinite-loading> -->
->>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
                 </section>
             </div>
         </div>
@@ -67,10 +62,7 @@ export default {
         // ...mapGetters({recipeList: "recipes/recipeList"}),
         sortedRecipeList() {
             let sortedList;
-<<<<<<< HEAD
-=======
             console.log(this.sortBy);
->>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
             switch (this.sortBy) {
                 case "newest":
                     sortedList = [...this.recipeList].sort(sortMethods.byNewest);
@@ -94,24 +86,6 @@ export default {
             return sortedList;
         }
     },
-<<<<<<< HEAD
-    // methods: {
-    //     ...mapActions({ getAllRecipes: "recipes/getAllRecipes" })
-    // },
-    // async created() {
-    //     if (this.recipeList.length === 0) {
-    //         this.isLoading = true;
-    //         try {
-    //             await this.getAllRecipes();
-    //             this.$eventBus.$on("sort-recipe-list", payload => {
-    //                 this.sortBy = payload;
-    //             });
-    //             this.isLoading = false;
-    //         } catch (error) {
-    //             this.error = error;
-    //             this.isLoading = false;
-    //         }
-=======
     methods: {
         // ...mapActions({ getAllRecipes: "recipes/getAllRecipes" }),
         sortRecipeList(sortBy) {
@@ -135,7 +109,6 @@ export default {
     //     } catch (error) {
     //         this.error = error;
     //         this.isLoadingMore = false;
->>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
     //     }
     // },
 
