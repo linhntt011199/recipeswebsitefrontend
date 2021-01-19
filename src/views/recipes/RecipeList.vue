@@ -62,7 +62,6 @@ export default {
         // ...mapGetters({recipeList: "recipes/recipeList"}),
         sortedRecipeList() {
             let sortedList;
-            console.log(this.sortBy);
             switch (this.sortBy) {
                 case "newest":
                     sortedList = [...this.recipeList].sort(sortMethods.byNewest);

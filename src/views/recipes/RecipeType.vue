@@ -98,7 +98,7 @@ export default {
       this.isLoading = true;
 
       try {
-          await axios.get("http://localhost:3000/api/v1/recipes/recipeByType?recipeType=" + this.recipeType)
+          await axios.get("http://localhost:3000/api/v1/recipes/sortByType?recipeType=" + this.recipeType)
           .then(response => this.recipeList = response.data) 
           .catch(e => e);
           this.isLoading = false;
