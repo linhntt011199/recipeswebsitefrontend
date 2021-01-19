@@ -74,7 +74,7 @@ export default {
           path: "/recipes"
         },
         {
-          name: this.recipeType,
+          name: this.recipeType + "(" + this.recipeList.length + ")",
           path: ""
         }
       ];
@@ -94,28 +94,20 @@ export default {
   //   }
   // }
   async created() {
-        if (this.recipeList.length === 0) {
-        this.isLoading = true;
+    // if (this.recipeList.length === 0) {
+      this.isLoading = true;
 
-        try {
-            await axios.get("http://localhost:3000/api/v1/recipes", {
-            headers: { Authorization: this.$store.getters.getToken }
-            })
-            .then(response => this.recipeList = response.data) 
-            // {
-            //   this.$store.commit('setToken', response.data.auth_token);
-            //   this.$store.commit('setRecipeList', response.data.recipeList);
-
-            // })
-            .catch(e => e);
-
-            this.isLoading = false;
-        } catch (error) {
-            this.error = error;
-            this.isLoading = false;
-        }
-        }
-    },
+      try {
+          await axios.get("http://localhost:3000/api/v1/recipes/recipeByType?recipeType=" + this.recipeType)
+          .then(response => this.recipeList = response.data) 
+          .catch(e => e);
+          this.isLoading = false;
+      } catch (error) {
+          this.error = error;
+          this.isLoading = false;
+      }
+    // }
+  },
 };
 </script>
 

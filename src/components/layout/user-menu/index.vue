@@ -5,11 +5,12 @@
       <v-list-item-group>
         <v-list-item class="menu-item">
           <router-link
-            :to="`/profile/${userId}`"
+            :to="{}"
             class="menu-link"
             >My Profile</router-link
           >
         </v-list-item>
+        
         <v-list-item class="menu-item">
           <router-link
             :to="{

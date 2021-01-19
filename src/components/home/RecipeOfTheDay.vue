@@ -13,7 +13,7 @@
         :to="{
           name: 'profile',
           params: {
-            userId: recipeOfTheDay.userId,
+            userId: recipeOfTheDay.user_id,
             fullname: recipeOfTheDay.user_name
           }
         }"

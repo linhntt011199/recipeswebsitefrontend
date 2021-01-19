@@ -13,6 +13,7 @@
               <div class="profile-info">
                 <img
                   :src="
+<<<<<<< HEAD
                     user.imageUrl || require('@/assets/images/user.png')
                   "
                   :alt="user.full_name"
@@ -21,6 +22,15 @@
                 
                 <!-- <h3 class="profile-name">
                   <span>{{ userById.fullname }}</span>
+=======
+                    userById.image || require('@/assets/images/user.png')
+                  "
+                  :alt="userById.full_name"
+                  class="profile-image"
+                />
+                <h3 class="profile-name">
+                  <span>{{ userById.full_name }}</span>
+>>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
                   <span
                     class="edit-icon"
                     v-if="currentUser && userById.id === currentUser.id"
@@ -32,7 +42,7 @@
                   ></span>
                   <v-dialog v-model="dialog" max-width="440">
                     <edit-profile-form
-                      :current-user="currentUser"
+                      :current-user="this.currentUser"
                       :close-dialog="this.closeDialog"
                     />
                   </v-dialog>
@@ -55,8 +65,8 @@
                     </template>
                     <span>{{
                       isFollowing
-                        ? `Unfollow ${userById.fullname}`
-                        : `Follow ${userById.fullname}`
+                        ? `Unfollow ${userById.full_name}`
+                        : `Follow ${userById.full_name}`
                     }}</span>
                   </v-tooltip>
                 </h3> -->
@@ -67,16 +77,16 @@
                 :is-current-user="
                   currentUser ? userById.id === currentUser.id : false
                 "
-                :profile-fullname="userById.fullname"
-                :follower-list="userById.following"
+                :profile-fullname="userById.full_name"
+                :follower-list="[]"
                 follower-type="following"
               />
               <follower-list
                 :is-current-user="
                   currentUser ? userById.id === currentUser.id : false
                 "
-                :profile-fullname="userById.fullname"
-                :follower-list="userById.followedBy"
+                :profile-fullname="userById.full_name"
+                :follower-list="[]"
                 follower-type="followerBy"
               />
             </section> -->
@@ -85,24 +95,24 @@
                 :is-current-user="
                   currentUser ? userById.id === currentUser.id : false
                 "
-                :profile-fullname="userById.fullname"
-                :recipe-list="userById.uploadedRecipes"
+                :profile-fullname="userById.full_name"
+                :recipe-list="userById.recipes"
                 recipe-list-type="Uploaded"
               />
               <profile-recipe-list
                 :is-current-user="
                   currentUser ? userById.id === currentUser.id : false
                 "
-                :profile-fullname="userById.fullname"
-                :recipe-list="userById.favoritedRecipes"
+                :profile-fullname="userById.full_name"
+                :recipe-list="[]"
                 recipe-list-type="Favorited"
               />
               <profile-recipe-list
                 :is-current-user="
                   currentUser ? userById.id === currentUser.id : false
                 "
-                :profile-fullname="userById.fullname"
-                :recipe-list="userById.savedRecipes"
+                :profile-fullname="userById.full_name"
+                :recipe-list="[]"
                 recipe-list-type="Saved"
               />
             </section> -->
@@ -116,20 +126,29 @@
 
 <script>
 // import { mapGetters, mapActions } from "vuex";
+<<<<<<< HEAD
 import Spinner from "@/components/shared/Spinner";
 // import AccountActions from "@/components/profile/AccountActions";
 // import FollowerList from "@/components/profile/FollowerList";
 // import ProfileRecipeList from "@/components/profile/RecipeList";
 // import EditProfileForm from "@/components/forms/profile/Edit";
 import axios from "axios";
+=======
+import axios from "axios";
+import Spinner from "@/components/shared/Spinner";
+import AccountActions from "@/components/profile/AccountActions";
+import FollowerList from "@/components/profile/FollowerList";
+import ProfileRecipeList from "@/components/profile/RecipeList";
+import EditProfileForm from "@/components/forms/profile/Edit";
+>>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
 export default {
   name: "profile-page",
   components: {
     Spinner,
-    // FollowerList,
-    // ProfileRecipeList,
-    // AccountActions,
-    // EditProfileForm
+    FollowerList,
+    ProfileRecipeList,
+    AccountActions,
+    EditProfileForm
   },
   data() {
     return {
@@ -139,7 +158,7 @@ export default {
       // dialog: false,
       // isFollowing: false,
       isLoading: false,
-      error: null
+      error: null,
     };
   },
   computed: {
@@ -151,6 +170,12 @@ export default {
     linkToEdit() {
       return `${this.$route.fullPath}/edit`;
     },
+<<<<<<< HEAD
+=======
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+>>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
     currentUser() {
       return this.$store.getters.getUser;
     }
@@ -213,6 +238,7 @@ export default {
     if (!this.user || this.user.id !== this.userId) {
       this.isLoading = true;
       try {
+<<<<<<< HEAD
         await axios.get(
           "http://localhost:3000/api/v1/users/" + this.userId,
         // await this.getRecipeById({ recipeId: this.recipeId });
@@ -223,11 +249,78 @@ export default {
           this.recipe = response.data
         })
         .catch(e => e);
+=======
+        await axios.get("http://localhost:3000/api/v1/users/" + this.userId)
+        .then(response => {
+          this.error = null;
+          this.isLoading = false;
+          this.userById = response.data;
+        });
+>>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
       } catch (error) {
         this.error = error;
         this.isLoading = false;
       }
     }
+<<<<<<< HEAD
+=======
+  },
+  methods: {
+    // ...mapActions({
+    //   getUserById: "users/getUserById",
+    //   followUserProfile: "users/followUserProfile"
+    // }),
+    openDialog() {
+      this.dialog = true;
+    },
+    closeDialog() {
+      this.dialog = false;
+    },
+    followUser() {
+      if (this.isAuthenticated && this.currentUser) {
+        const currentUserId = this.currentUser.id;
+        const currentProfile = this.userById;
+        let updatedFollowedByList;
+        let updatedFollowingList;
+        if (this.isFollowing) {
+          this.isFollowing = !this.isFollowing;
+          updatedFollowedByList = currentProfile.followedBy.filter(
+            userId => userId !== currentUserId
+          );
+          updatedFollowingList = this.currentUser.following.filter(
+            userId => userId !== currentProfile.id
+          );
+        } else {
+          this.isFollowing = !this.isFollowing;
+          updatedFollowedByList = [...currentProfile.followedBy, currentUserId];
+          updatedFollowingList = [...this.currentUser.following, this.userId];
+        }
+        this.followUserProfile({
+          userId: this.userId,
+          currentUserId,
+          following: updatedFollowingList,
+          followedBy: updatedFollowedByList
+        });
+      }
+    }
+  },
+  async created() {
+    this.isLoading = true;
+    try {
+      await axios.get("http://localhost:3000/api/v1/users/" + this.userId)
+      .then(response => {
+        this.error = null;
+        this.isLoading = false;
+        this.userById = response.data;
+      });
+    } catch (error) {
+      this.error = error;
+      this.isLoading = false;
+    }
+    // if (this.currentUser && this.userById) {
+    //   this.isFollowing = this.userById.followedBy.includes(this.currentUser.id);
+    // }
+>>>>>>> 3bec1790a5a56b70cbce29334c0e6912b586323f
   }
 };
 </script>

@@ -10,7 +10,7 @@
       <template v-else>
         <breadcrumbs :breadcrumb-links="breadcrumbLinks" />
         <h2 class="recipe-name">
-          {{ recipe.name }}
+          {{ recipe.title }}
           <span v-if="currentUser && currentUser.id === recipe.user_id">
             <router-link :to="`${fullPath}/edit`">
               <i class="far fa-edit recipe-edit" aria-label="Edit recipe"></i>
@@ -43,8 +43,8 @@
         <posted-by :posted-by="recipe.user_id" />
 
         <div class="ingredients-and-instructions">
-          <ingredients :ingredients="recipe.ingredients.replace(/[^a-zA-Z ,]/g, '').split(',')" />
-          <instructions :instructions="recipe.instructions.replace(/[^a-zA-Z ,]/g, '').split(',')" />
+          <ingredients :ingredients="recipe.ingredients" />
+          <instructions :instructions="recipe.instructions" />
         </div>
 
         <div class="comments-and-similar">
@@ -76,7 +76,7 @@ import Instructions from "@/components/recipes/detail/Instructions";
 import CommentList from "@/components/recipes/detail/CommentList";
 import SimilarRecipes from "@/components/recipes/detail/SimilarRecipes";
 import CommentForm from "@/components/forms/comment";
-// import { calculateRecipeRating } from "@/helpers";
+import { calculateRecipeRating } from "@/helpers";
 export default {
   name: "recipe-detail-page",
   components: {
@@ -105,9 +105,9 @@ export default {
     //   currentUser: "users/currentUser",
     //   recipe: "recipes/recipe"
     // }),
-    // recipeRating() {
-    //   return calculateRecipeRating(this.recipe.ratedBy);
-    // },
+    recipeRating() {
+      return calculateRecipeRating(this.recipe.ratedBy);
+    },
     breadcrumbLinks() {
       return [
         {
@@ -115,11 +115,11 @@ export default {
           path: "/recipes"
         },
         {
-          name: this.recipe.recipeType[0],
-          path: `/recipes/${this.recipe.recipeType[0]}`
+          name: this.recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0],
+          path: `/recipes/${this.recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0]}`
         },
         {
-          name: this.recipe.name,
+          name: this.recipe.title,
           path: ""
         }
       ];
@@ -134,25 +134,27 @@ export default {
     }
   },
   // methods: {
-  //   ...mapActions({
-  //     getRecipeById: "recipes/getRecipeById",
-  //     incrementRecipeViews: "recipes/incrementRecipeViews"
-  //   })
+    // ...mapActions({
+    //   getRecipeById: "recipes/getRecipeById",
+    //   incrementRecipeViews: "recipes/incrementRecipeViews"
+    // })
   // },
   async created() {
     if (!this.recipe || this.recipe.id !== this.recipeId) {
       this.isLoading = true;
+      const url = "http://localhost:3000/api/v1/recipes/" + this.recipeId;
       try {
-        await axios.get(
-          "http://localhost:3000/api/v1/recipes/" + this.recipeId,
-        // await this.getRecipeById({ recipeId: this.recipeId });
-        // await this.incrementRecipeViews({ recipeId: this.recipeId });
-        )
+        await axios.get(url)
         .then(response => {
           this.isLoading = false;
-          this.recipe = response.data
+          this.recipe = response.data;
+          this.recipe.ingredients = this.recipe.ingredients.replace(/["[\]]/g, '').split(',')
+          this.recipe.instructions = this.recipe.instructions.replace(/["[\]]/g, '').split(',')
         })
         .catch(e => e);
+        await axios.patch(url, {
+          views: this.recipe.views + 1
+        })
       } catch (error) {
         this.error = error;
         this.isLoading = false;
