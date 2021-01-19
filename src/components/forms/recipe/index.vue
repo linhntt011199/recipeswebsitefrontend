@@ -300,6 +300,7 @@ export default {
           // updated_at: new Date().toLocaleString()
         }
         console.log(this.newRecipe);
+        // this.$v.$touch();
         this.isLoading = true;
         try {
           await axios.post("http://localhost:3000/api/v1/recipes", {
@@ -308,6 +309,15 @@ export default {
               Authorization: this.$store.getters.getToken,
             },
             data: this.newRecipe,
+            // image: this.image,
+            // title: this.title,
+            // description: this.description,
+            // serving: this.servings,
+            // preparation_time: this.prepTime,
+            // cooking_time: this.cookingTime,
+            // vegetarian: this.isVegetarian,
+            // rating: 0,
+            // views: 0,
           }).then(() => {
             this.isLoading = false;
             this.$router.push('/recipes');

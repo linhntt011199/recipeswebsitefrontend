@@ -4,22 +4,23 @@
       Update Your Recipe
     </h2>
     <v-card class="mx-auto edit-recipe-card">
-      <h2 class="edit-recipe-title edit-recipe-title--mobile">
+      <!-- <h2 class="edit-recipe-title edit-recipe-title--mobile">
         Update Your Recipe
-      </h2>
-      <recipe-form action-type="edit-recipe" :recipe-to-edit="recipe" />
+      </h2> -->
+      <recipe-form action-type="add-recipe" :recipe-to-edit="recipe" />
     </v-card>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 // import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import RecipeForm from "@/components/forms/recipe";
 export default {
   name: "edit-recipe-page",
   components: {
-    RecipeForm
+    RecipeForm,
+    // Breadcrumbs
   },
   data() {
     return {
@@ -27,7 +28,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ recipe: "recipes/recipe" }),
+    // ...mapGetters({ recipe: "recipes/recipe" }),
     breadcrumbLinks() {
       return [
         {
