@@ -5,7 +5,13 @@
       <v-list-item-group>
         <v-list-item class="menu-item">
           <router-link
-            :to="{}"
+            :to="{name: 'profile',
+              params: {
+                userId: userId,
+                name: userName,
+              },
+              hash: '#update-recipes'
+            }"
             class="menu-link"
             >My Profile</router-link
           >

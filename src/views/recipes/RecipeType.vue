@@ -12,22 +12,22 @@
       </div>
       <div v-else-if="error">{{ error }}</div>
       <div v-else>
-        <!-- <div v-if="recipeListByType.length === 0" class="empty-recipe-list">
+        <div v-if="recipeListByType.length === 0" class="empty-recipe-list">
           There are currently no {{ recipeType }} recipes in the database
         </div>
         <recipe-list
           v-else
           :recipe-list="recipeListByType"
           :recipe-type="recipeType"
-        /> -->
-        <div v-if="recipeList.length === 0" class="empty-recipe-list">
+        />
+        <!-- <div v-if="recipeList.length === 0" class="empty-recipe-list">
           There are currently no {{ recipeType }} recipes in the database
         </div>
         <recipe-list
           v-else
           :recipe-list="recipeList"
           :recipe-type="recipeType"
-        /> 
+        />  -->
       </div>
     </div>
   </div>
@@ -59,6 +59,9 @@ export default {
   },
   computed: {
     // ...mapGetters({ recipeListByType: "recipes/recipeListByType" }),
+    recipeListByType() {
+      return this.recipeList;
+    },
     recipeTypeInfo() {
       return recipeTypeList.filter(
         recipeType => recipeType.path === this.recipeType

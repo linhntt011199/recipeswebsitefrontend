@@ -43,7 +43,6 @@ export default {
         SortRecipeList,
         RecipeList
     },
-
     data() {
         return {
             breadcrumbLinks: [
@@ -59,7 +58,6 @@ export default {
             recipeListTotalSize: 0,
         };
     },
-
     computed: {
         // ...mapGetters({recipeList: "recipes/recipeList"}),
         sortedRecipeList() {
@@ -117,7 +115,6 @@ export default {
     async created() {
         if (this.recipeList.length === 0) {
         this.isLoading = true;
-
         try {
             await axios.get("http://localhost:3000/api/v1/recipes", {
             headers: { Authorization: this.$store.getters.getToken }
@@ -129,10 +126,8 @@ export default {
             // {
             //   this.$store.commit('setToken', response.data.auth_token);
             //   this.$store.commit('setRecipeList', response.data.recipeList);
-
             // })
             .catch(e => e);
-
             this.isLoading = false;
         } catch (error) {
             this.error = error;
@@ -148,7 +143,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../scss/style";
-
 .recipe-list {
     &-page {
         display: flex;
@@ -156,27 +150,22 @@ export default {
         align-items: center;
         padding-top: 0.5rem;
         min-height: 50vh;
-
         &--loading {
             justify-content: center;
             align-items: center;
         }
-
         &--loading {
             justify-content: center;
             align-items: center;
         }
-
         @include mediumDevices {
             margin: 2rem 3.5rem;
             padding-top: 1rem;
         }
-
         @include largeDevices {
             margin: 2rem 8.5rem;
         }
     }
-
     &-grid {
         padding: 1rem;
         @include mediumDevices {

@@ -5,7 +5,7 @@
       class="recipe-link"
     >
       <v-img
-        :lazy-src="require('@/assets/images/lazy-load.jpg')"
+        lazy-src="https://picsum.photos/id/11/10/6"
         aspect-ratio="1"
         height="225"
         max-height="275"
