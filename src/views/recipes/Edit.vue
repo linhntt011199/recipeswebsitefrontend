@@ -7,7 +7,7 @@
       <!-- <h2 class="edit-recipe-title edit-recipe-title--mobile">
         Update Your Recipe
       </h2> -->
-      <recipe-form action-type="add-recipe" :recipe-to-edit="recipe" />
+      <recipe-form action-type="edit-recipe" :recipe-to-edit="recipe" />
     </v-card>
   </div>
 </template>

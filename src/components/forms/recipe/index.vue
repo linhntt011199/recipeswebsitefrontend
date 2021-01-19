@@ -122,7 +122,6 @@ import RecipeTypeField from "./Type";
 import RecipeDifficultyField from "./Difficulty";
 import RecipeIngredientsField from "./Ingredients";
 import RecipeInstructionsField from "./Instructions";
-
 const greaterThanZero = value => value > 0;
 export default {
   name: "recipe-form",
@@ -208,7 +207,6 @@ export default {
         errors.push("Recipe description is required.");
       return errors;
     },
-
     servingsErrors() {
       const errors = [];
       if (!this.$v.servings.$dirty) return errors;
@@ -218,7 +216,6 @@ export default {
         errors.push("Number of servings must be greater than zero.");
       return errors;
     },
-
     prepTimeErrors() {
       const errors = [];
       if (!this.$v.prepTime.$dirty) return errors;
@@ -228,7 +225,6 @@ export default {
         errors.push("Preparation time must be greater than zero minutes.");
       return errors;
     },
-
     cookingTimeErrors() {
       const errors = [];
       if (!this.$v.cookingTime.$dirty) return errors;
@@ -238,7 +234,6 @@ export default {
         errors.push("Cooking time must be greater than zero minutes.");
       return errors;
     },
-
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
     },
@@ -280,6 +275,16 @@ export default {
     },
     async submitNewRecipe() {
       if (this.isAuthenticated) {
+        // const recipe = new FormData();
+        // recipe.append('image', this.image);
+        // recipe.append('title', this.title);
+        // recipe.append('description', this.description);
+        // recipe.append('serving', this.servings);
+        // recipe.append('preparation_time', this.prepTime);
+        // recipe.append('cooking_time', this.cookingTime);
+        // recipe.append('vegetarian', this.isVegetarian);
+        // recipe.append('rating', 0);
+        // recipe.append('views', 0);
         this.newRecipe = {
           ...this.newRecipe,
           image: this.image,
@@ -291,7 +296,7 @@ export default {
           vegetarian: this.isVegetarian,
           rating: 0,
           views: 0,
-          // user_id: this.userId(),
+          // user_id: this.userId,
           // ratedBy: [],
           // likedBy: [],
           // bookmarkedBy: [],
@@ -299,8 +304,7 @@ export default {
           // created_at: new Date().toLocaleString(),
           // updated_at: new Date().toLocaleString()
         }
-        console.log(this.newRecipe);
-        // this.$v.$touch();
+        console.log(this.newRecipe.image);
         this.isLoading = true;
         try {
           await axios.post("http://localhost:3000/api/v1/recipes", {
@@ -308,16 +312,7 @@ export default {
               'Content-Type': 'multipart/form-data',
               Authorization: this.$store.getters.getToken,
             },
-            data: this.newRecipe,
-            // image: this.image,
-            // title: this.title,
-            // description: this.description,
-            // serving: this.servings,
-            // preparation_time: this.prepTime,
-            // cooking_time: this.cookingTime,
-            // vegetarian: this.isVegetarian,
-            // rating: 0,
-            // views: 0,
+            recipe: this.newRecipe
           }).then(() => {
             this.isLoading = false;
             this.$router.push('/recipes');
@@ -335,12 +330,12 @@ export default {
       ) {
         this.updatedFields = {
           ...this.updatedFields,
-          updatedAt: new Date().toLocaleString()
+          updated_at: new Date().toLocaleString()
         };
         this.isLoading = true;
         try {
           await axios.patch("http://localhost:3000/api/v1/recipes/" + this.recipeToEdit.id, {
-            headers: { Authorization: this.$store.getters.getToken },
+            // headers: { Authorization: this.$store.getters.getToken },
             updatedFields: JSON.parse(JSON.stringify(this.updatedFields)),
           }).then(() => {
             this.error = null;

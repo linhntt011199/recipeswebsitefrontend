@@ -3,25 +3,39 @@
     <figure class="user-info">
       <img
         :src="postedBy.imageUrl || require('@/assets/images/user.png')"
-        :alt="postedBy.fullname"
+        :alt="postedBy.full_name"
         class="image"
       />
-      <figcaption class="name">{{ postedBy.fullname }}</figcaption>
+      <figcaption class="name">
+        <!-- <router-link
+          :to="{
+            name: 'profile',
+            params: {
+              userId: postedBy.id,
+              fullname: postedBy.fullname
+            }
+          }"
+          class="other-recipes-link"
+          > -->
+          {{ postedBy }}
+        <!-- </router-link> -->
+      </figcaption>
     </figure>
-    <div class="other-recipes">
+    <!-- <div class="other-recipes">
       <router-link
         :to="{
           name: 'profile',
           params: {
-            userId: postedBy.id,
+            userId: postedBy,
             fullname: postedBy.fullname
           }
         }"
         class="other-recipes-link"
       >
-        {{ userRecipes }} Posted <br />Recipes
+        {{ userRecipes }} 
+        Posted <br />Recipes
       </router-link>
-    </div>
+    </div> -->
   </v-card>
 </template>
 

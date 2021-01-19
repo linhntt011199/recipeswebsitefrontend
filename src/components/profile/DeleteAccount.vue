@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+// import { mapActions, mapGetters } from "vuex";
 export default {
   name: "delete-account",
   data() {
@@ -50,14 +50,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      isAuthenticated: "auth/isAuthenticated"
-    })
+    // ...mapGetters({
+    //   isAuthenticated: "auth/isAuthenticated"
+    // })
+    isAuthenticated(){
+      return this.$store.getters.isAuthenticated;
+    }
   },
   methods: {
-    ...mapActions({
-      deleteUserAccount: "users/deleteUserAccount"
-    }),
+    // ...mapActions({
+    //   deleteUserAccount: "users/deleteUserAccount"
+    // }),
     async deleteAccount() {
       if (this.isAuthenticated) {
         this.isLoading = true;
