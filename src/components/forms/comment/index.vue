@@ -18,13 +18,14 @@
       color="#04b4d4"
       :disabled="isLoading"
       :loading="isLoading"
+      @click="submitComment"
       >add comment</v-btn
     >
   </form>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+// import { mapGetters, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 export default {
@@ -44,10 +45,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      isAuthenticated: "auth/isAuthenticated",
-      currentUser: "users/currentUser"
-    }),
+    // ...mapGetters({
+    //   isAuthenticated: "auth/isAuthenticated",
+    //   currentUser: "users/currentUser"
+    // }),
     commentErrors() {
       const errors = [];
       if (!this.$v.comment.$dirty) return errors;
@@ -56,7 +57,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions({ commentOnRecipe: "recipes/commentOnRecipe" }),
+    // ...mapActions({ commentOnRecipe: "recipes/commentOnRecipe" }),
     clearForm() {
       this.$v.$reset();
       this.comment = "";

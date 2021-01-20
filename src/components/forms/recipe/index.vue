@@ -122,7 +122,6 @@ import RecipeTypeField from "./Type";
 import RecipeDifficultyField from "./Difficulty";
 import RecipeIngredientsField from "./Ingredients";
 import RecipeInstructionsField from "./Instructions";
-
 const greaterThanZero = value => value > 0;
 export default {
   name: "recipe-form",
@@ -208,7 +207,6 @@ export default {
         errors.push("Recipe description is required.");
       return errors;
     },
-
     servingsErrors() {
       const errors = [];
       if (!this.$v.servings.$dirty) return errors;
@@ -218,7 +216,6 @@ export default {
         errors.push("Number of servings must be greater than zero.");
       return errors;
     },
-
     prepTimeErrors() {
       const errors = [];
       if (!this.$v.prepTime.$dirty) return errors;
@@ -228,7 +225,6 @@ export default {
         errors.push("Preparation time must be greater than zero minutes.");
       return errors;
     },
-
     cookingTimeErrors() {
       const errors = [];
       if (!this.$v.cookingTime.$dirty) return errors;
@@ -238,7 +234,6 @@ export default {
         errors.push("Cooking time must be greater than zero minutes.");
       return errors;
     },
-
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
     },

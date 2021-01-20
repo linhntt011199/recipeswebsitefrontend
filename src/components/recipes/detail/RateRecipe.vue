@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+// import { mapActions, mapGetters } from "vuex";
 export default {
   name: "rate-recipe",
   props: {
@@ -26,13 +26,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      isAuthenticated: "auth/isAuthenticated",
-      currentUser: "users/currentUser"
-    })
+    // ...mapGetters({
+    //   isAuthenticated: "auth/isAuthenticated",
+    //   currentUser: "users/currentUser"
+    // })
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+    currentUser() {
+      return this.$store.getters.currentUser;
+    }
   },
   methods: {
-    ...mapActions({ rateRecipe: "recipes/rateRecipe" }),
+    // ...mapActions({ rateRecipe: "recipes/rateRecipe" }),
     submitRating($rating) {
       this.selectedRating = $rating;
       if (this.isAuthenticated) {

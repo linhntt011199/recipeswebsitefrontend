@@ -20,14 +20,7 @@
     </v-card>
     <div class="password-reset-prompt">
       Forgot password? Click 
-      <!-- <reset-password />  -->
-        <router-link
-          to="/auth/register"
-          class="register-link"
-        >
-          here</router-link
-        >
-      to reset it
+      <reset-password /> to reset it
     </div>
     <p class="register-msg">
       Not yet a member? Register<router-link
@@ -43,12 +36,12 @@
 <script>
 import LoginForm from "@/components/forms/auth/Login";
 import SocialLogin from "@/components/auth/socialLogin";
-//import ResetPassword from "@/components/forms/profile/ResetPassword";
+import ResetPassword from "@/components/forms/profile/ResetPassword";
 export default {
   name: "login-page",
   components: {
     LoginForm,
-    //ResetPassword,
+    ResetPassword,
     SocialLogin
   }
 };

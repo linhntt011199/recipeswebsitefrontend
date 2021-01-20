@@ -4,9 +4,9 @@
       Update Your Recipe
     </h2>
     <v-card class="mx-auto edit-recipe-card">
-      <h2 class="edit-recipe-title edit-recipe-title--mobile">
+      <!-- <h2 class="edit-recipe-title edit-recipe-title--mobile">
         Update Your Recipe
-      </h2>
+      </h2> -->
       <recipe-form action-type="edit-recipe" :recipe-to-edit="recipe" />
     </v-card>
   </div>
@@ -20,7 +20,8 @@ import RecipeForm from "@/components/forms/recipe";
 export default {
   name: "edit-recipe-page",
   components: {
-    RecipeForm
+    RecipeForm,
+    // Breadcrumbs
   },
   data() {
     return {
