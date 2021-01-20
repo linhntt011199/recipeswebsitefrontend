@@ -193,7 +193,7 @@ export default {
         })
         .catch(error => {
           this.$store.commit('setErrors', error.response.data.errors);
-          this.error = error;
+          this.error = "Email already exists";
           this.isLoading = false;
         });
     },
