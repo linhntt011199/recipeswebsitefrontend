@@ -40,7 +40,7 @@
 
         <rate-recipe v-if="currentUser" :rated-by="recipe.ratedBy" />
 
-        <posted-by :posted-by="recipe.user_name" >
+        <posted-by :posted-by="recipe.user_id" >
         </posted-by>
 
         <div class="ingredients-and-instructions">

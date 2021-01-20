@@ -328,7 +328,7 @@ export default {
           .then((response) => {
             console.log(response)
             this.isLoading = false;
-            this.$router.push('/recipes');
+            this.$router.push('/recipes/' + this.newRecipe.recipeType[0]);
           })
           .catch(errors => {
             this.isLoading = false;
