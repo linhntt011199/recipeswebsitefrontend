@@ -1,35 +1,38 @@
 <template>
-  <form @submit.prevent="submit" class="form">
-    <v-text-field
-      v-model.trim="email"
-      :error-messages="emailErrors"
-      label="E-mail"
-      required
-      @input="$v.email.$touch()"
-      @blur="$v.email.$touch()"
-    ></v-text-field>
+  <div>
+    <form @submit.prevent="submit" class="form">
+      <v-text-field
+        v-model.trim="email"
+        :error-messages="emailErrors"
+        label="E-mail"
+        required
+        @input="$v.email.$touch()"
+        @blur="$v.email.$touch()"
+      ></v-text-field>
 
-    <v-text-field
-      v-model.trim="password"
-      :type="showPassword ? 'text' : 'password'"
-      :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-      :error-messages="passwordErrors"
-      label="Password"
-      required
-      @input="$v.password.$touch()"
-      @blur="$v.password.$touch()"
-      @click:append="showPassword = !showPassword"
-    ></v-text-field>
-    <p v-show="error" class="error-message">{{ error }}</p>
-    <v-btn 
-      type="submit" 
-      class="mr-4 button" 
-      color="#04b4d4" 
-      :disabled="isLoading"
-      :loading="isLoading" 
-      @click="authenticate"
-      >log in</v-btn>
-  </form>
+      <v-text-field
+        v-model.trim="password"
+        :type="showPassword ? 'text' : 'password'"
+        :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+        :error-messages="passwordErrors"
+        label="Password"
+        required
+        @input="$v.password.$touch()"
+        @blur="$v.password.$touch()"
+        @click:append="showPassword = !showPassword"
+      ></v-text-field>
+      <p v-show="error" class="error-message">{{ error }}</p>
+      <v-btn 
+        type="submit" 
+        class="mr-4 button" 
+        color="#04b4d4" 
+        :disabled="isLoading"
+        :loading="isLoading" 
+        @click="authenticate"
+        >log in</v-btn>
+    </form>
+    <p v-if="showError" class="error-message">Email or Password is incorrect</p>
+  </div>
 </template>
 
 <script>
@@ -53,6 +56,7 @@ export default {
       email: "",
       password: "",
       showPassword: false,
+      showError: false
     };
   },
   computed: {
@@ -90,7 +94,10 @@ export default {
           this.$store.commit('setUser', response.data.user);
           this.$router.push('/');
         })
-        .catch(error => this.$store.commit('setErrors', error.response.data.errors));
+        .catch(error => {
+          this.$store.commit('setErrors', error.response.data.errors);
+          this.showError = true;
+        })
     }
   }
 };
@@ -112,5 +119,9 @@ export default {
   color: $error-color;
   margin-top: 0.5rem;
   margin-bottom: 0;
+  margin-left: 1rem;
+}
+.error {
+  color: red;
 }
 </style>
