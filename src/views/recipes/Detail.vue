@@ -41,7 +41,7 @@
 
         <rate-recipe v-if="currentUser" :rated-by="recipe.ratedBy" />
 
-        <posted-by :posted-by="recipe.user_id" >
+        <posted-by :posted-by="recipe.user_name" >
         </posted-by>
 
         <div class="ingredients-and-instructions">
@@ -150,8 +150,8 @@ export default {
         .then(response => {
           this.isLoading = false;
           this.recipe = response.data;
-          this.recipe.ingredients = this.recipe.ingredients.replace(/["[\]]/g, '').split(',')
-          this.recipe.instructions = this.recipe.instructions.replace(/["[\]]/g, '').split(',')
+          this.recipe.ingredients = this.recipe.ingredients.replace(/[[\]]/g, '').split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(s => s.replace(/["]/g, ''));
+          this.recipe.instructions = this.recipe.instructions.replace(/[[\]]/g, '').split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(s => s.replace(/["]/g, ''));
         })
         .catch(e => e);
         await axios.patch(url, {
