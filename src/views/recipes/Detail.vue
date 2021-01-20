@@ -13,7 +13,6 @@
           {{ recipe.title }}
           <span v-if="currentUser && currentUser.id === recipe.user_id">
             <router-link :to="`${fullPath}/edit`">
-              <!-- <edit-recipe-page :recipe="recipe" /> -->
               <i class="far fa-edit recipe-edit" aria-label="Edit recipe"></i>
             </router-link>
             <delete-recipe :recipe-name="recipe.title" />
@@ -41,24 +40,23 @@
 
         <rate-recipe v-if="currentUser" :rated-by="recipe.ratedBy" />
 
-        <posted-by :posted-by="recipe.user_name" >
-        </posted-by>
+        <posted-by :posted-by="postedBy" />
 
         <div class="ingredients-and-instructions">
           <ingredients :ingredients="recipe.ingredients" />
           <instructions :instructions="recipe.instructions" />
         </div>
 
-        <!-- <div class="comments-and-similar"> -->
+        <div class="comments-and-similar">
           <div class="comments">
             <h3 class="comments-title">Comments</h3>
             <comment-form />
             <comment-list :comment-list="recipe.comments" />
           </div>
-          <!-- <div class="similar-recipes">
+          <div class="similar-recipes">
             <similar-recipes />
-          </div> -->
-        <!-- </div> -->
+          </div>
+        </div>
       </template>
     </div>
   </div>
@@ -76,7 +74,7 @@ import PostedBy from "@/components/recipes/detail/PostedBy";
 import Ingredients from "@/components/recipes/detail/Ingredients";
 import Instructions from "@/components/recipes/detail/Instructions";
 import CommentList from "@/components/recipes/detail/CommentList";
-// import SimilarRecipes from "@/components/recipes/detail/SimilarRecipes";
+import SimilarRecipes from "@/components/recipes/detail/SimilarRecipes";
 import CommentForm from "@/components/forms/comment";
 import { calculateRecipeRating } from "@/helpers";
 export default {
@@ -92,12 +90,13 @@ export default {
     Instructions,
     CommentForm,
     CommentList,
-    // SimilarRecipes
+    SimilarRecipes
   },
   data() {
     return {
       recipeId: this.$route.params.recipeId,
       fullPath: this.$route.fullPath,
+      postedBy: null,
       isLoading: false,
       error: null
     };
@@ -148,7 +147,6 @@ export default {
       try {
         await axios.get(url)
         .then(response => {
-          this.isLoading = false;
           this.recipe = response.data;
           this.recipe.ingredients = this.recipe.ingredients.replace(/[[\]]/g, '').split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(s => s.replace(/["]/g, ''));
           this.recipe.instructions = this.recipe.instructions.replace(/[[\]]/g, '').split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(s => s.replace(/["]/g, ''));
@@ -157,6 +155,13 @@ export default {
         await axios.patch(url, {
           views: this.recipe.views + 1
         })
+        await axios.get("http://localhost:3000/api/v1/users/" + this.recipe.user_id)
+        .then(response => {
+          this.postedBy = response.data;
+          if (response.data.avatar) this.postedBy.avatar = 'http://localhost:3000' + response.data.avatar;
+        })
+        .catch(e => e);
+        this.isLoading = false;
       } catch (error) {
         this.error = error;
         this.isLoading = false;

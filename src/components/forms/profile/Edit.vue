@@ -24,10 +24,18 @@
         <img
           v-show="imageUrl"
           :src="imageUrl"
-          :alt="currentUser.fullname"
+          :alt="currentUser.full_name"
           class="profile-photo-preview"
         />
       </div>
+
+      <!-- <v-text-field
+        v-model="name"
+        label="Username"
+        required
+        @input="$v.name.$touch()"
+        @blur="$v.name.$touch()"
+      ></v-text-field> -->
 
       <v-text-field
         v-model="fullname"
@@ -46,6 +54,7 @@
         </v-btn>
 
         <v-btn
+          type="submit"
           color="#04b4d4"
           :disabled="isLoading"
           :loading="isLoading"
@@ -60,9 +69,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
+import axios from "axios";
+import { validationMixin } from "vuelidate";
+import { maxLength } from "vuelidate/lib/validators";
 export default {
   name: "edit-profile-form",
+  mixins: [validationMixin],
   props: {
     currentUser: {
       type: Object,
@@ -73,8 +86,18 @@ export default {
       required: true
     }
   },
+  validations: {
+    // name: {
+    //   minLength: minLength(4),
+    //   maxLength: maxLength(32)
+    // },
+    fullname: {
+      maxLength: maxLength(100)
+    }
+  },
   data() {
     return {
+      // name: "",
       fullname: "",
       image: "",
       imageUrl: "",
@@ -85,15 +108,15 @@ export default {
   },
   computed: {
     profilePhoto() {
-      return this.currentUser.imgUrl
-        ? this.currentUser.imageUrl
+      return this.currentUser.avatar
+        ? this.currentUser.avatar
         : require("@/assets/images/user.png");
     }
   },
   methods: {
-    ...mapActions({
-      updateUserProfile: "users/updateUserProfile"
-    }),
+    // ...mapActions({
+      // updateUserProfile: "users/updateUserProfile"
+    // }),
     onFileChange(e) {
       const fileReader = new FileReader();
       const selectedFile = e.target.files[0];
@@ -109,27 +132,44 @@ export default {
     },
     async submitForm() {
       if (this.currentUser) {
-        this.isLoading = true;
-        try {
-          await this.updateUserProfile({
-            image: this.image,
-            fullname:
-              this.currentUser.fullname !== this.fullname ? this.fullname : "",
-            router: this.$router
-          });
-          this.closeDialog();
-          this.isLoading = false;
-          this.error = null;
-        } catch (error) {
-          this.error = error;
-          this.isLoading = null;
+        this.fullname = this.fullname.trim();
+        if (this.image || this.currentUser.full_name !== this.fullname) {
+          this.isLoading = true;
+          const formData = new FormData();
+          if (this.image) formData.append('avatar', this.image);
+          if (this.currentUser.full_name !== this.fullname) formData.append('full_name', this.fullname);
+          for(var pair of formData.entries()) {
+            console.log(pair[0]+ ', '+ pair[1]); 
+          }
+          const url = "http://localhost:3000/api/v1/users/" + this.currentUser.id;
+          const config = { headers: {
+            Authorization: this.$store.getters.getToken,
+          } };
+          try {
+            await axios.patch(url, formData, config)
+            .then(() => {
+              this.closeDialog();
+              this.isLoading = false;
+              this.error = null;
+            })
+            .catch(error => {
+              this.error = error;
+              this.isLoading = false;
+            });
+          } catch (error) {
+            this.error = error;
+            this.isLoading = false;
+          }
+          if (this.error === null) location.reload();
         }
       }
     }
   },
+
   created() {
-    this.fullname = this.currentUser.fullname;
-    this.imageUrl = this.profilePhoto;
+    // this.name = this.currentUser.name;
+    this.fullname = this.currentUser.full_name;
+    this.imageUrl = "http://localhost:3000" + this.profilePhoto;
   }
 };
 </script>

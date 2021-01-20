@@ -1,14 +1,14 @@
 <template>
   <v-list class="user-menu-list">
-    <div v-if="isAuthenticated">
+    <div v-if="this.isAuthenticated">
       <v-subheader class="menu-subheader">Recipes</v-subheader>
       <v-list-item-group>
         <v-list-item class="menu-item">
           <router-link
             :to="{name: 'profile',
               params: {
-                userId: userId,
-                name: userName,
+                userId: this.currentUser.id,
+                name: this.currentUser.name,
               },
               hash: '#update-recipes'
             }"
@@ -22,8 +22,8 @@
             :to="{
               name: 'profile',
               params: {
-                userId: userId,
-                name: userName,
+                userId: this.currentUser.id,
+                name: this.currentUser.name,
               },
               hash: '#favorited-recipes'
             }"
@@ -36,8 +36,8 @@
             :to="{
               name: 'profile',
               params: {
-                userId: userId,
-                name: userName,
+                userId: this.currentUser.id,
+                name: this.currentUser.name,
               },
               hash: '#saved-recipes'
             }"
@@ -51,7 +51,7 @@
     <!-- <v-subheader class="menu-subheader">Account</v-subheader> -->
     <v-list-item-group>
       <v-list-item
-        v-show="!isAuthenticated"
+        v-show="!this.isAuthenticated"
         class="menu-item"
         @click="navigateTo('/auth/register')"
       >
@@ -60,14 +60,14 @@
         >
       </v-list-item>
       <v-list-item
-        v-show="!isAuthenticated"
+        v-show="!this.isAuthenticated"
         class="menu-item"
         @click="navigateTo('/auth/login')"
       >
         <router-link to="/auth/login" class="menu-link">Login</router-link>
       </v-list-item>
       <v-list-item
-        v-show="isAuthenticated"
+        v-show="this.isAuthenticated"
         class="menu-item"
         @click="logout"
       >
@@ -88,18 +88,14 @@ export default {
   //     currentUser: null
   //   };
   // },
-  computed: {
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
+  props: {
+    currentUser: {
+      type: Object,
+      required: true
     },
-    userId() {
-      return this.$store.getters.getUserId;
-    },
-    userName() {
-      return this.$store.getters.getUserName;
-    },
-    getErrors() {
-      return this.$store.getters.getErrors;
+    isAuthenticated: {
+      type: Function,
+      required: true,
     }
   },
   methods: {

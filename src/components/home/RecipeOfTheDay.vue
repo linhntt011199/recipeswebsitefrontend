@@ -24,14 +24,13 @@
         }"
         class="recipe-added-by-link"
       >
-        <!-- <img
+        <img
           :src="
-            recipeOfTheDay.addedBy.imageUrl ||
-              require('@/assets/images/user.png')
+            this.user.avatar || require('@/assets/images/user.png')
           "
           :alt="recipeOfTheDay.user_name"
           class="recipe-added-by-image"
-        /> -->
+        />
         <span class="recipe-added-by-name">{{
           recipeOfTheDay.user_name
         }}</span>
@@ -41,12 +40,34 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "recipe-of-the-day",
+  data() {
+    return {
+      user: {},
+      error: null,
+    };
+  },
   props: {
     recipeOfTheDay: {
       type: Object,
       required: true
+    }
+  },
+  async created() {
+    const url = "http://localhost:3000/api/v1/users/" + this.recipeOfTheDay.user_id;
+    try {
+      await axios.get(url)
+      .then((response) => {
+        this.user = response.data;
+        if (response.data.avatar) this.user.avatar = 'http://localhost:3000' + response.data.avatar;
+      })
+      .catch(error => {
+        this.error = error;
+      });
+    } catch (error) {
+      this.error = error;
     }
   }
 };

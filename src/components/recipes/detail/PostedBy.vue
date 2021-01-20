@@ -2,45 +2,45 @@
   <v-card class="posted-by">
     <figure class="user-info">
       <img
-        :src="postedBy.imageUrl || require('@/assets/images/user.png')"
+        :src="postedBy.avatar || require('@/assets/images/user.png')"
         :alt="postedBy.full_name"
         class="image"
       />
       <figcaption class="name">
-        <!-- <router-link
+        <router-link
           :to="{
             name: 'profile',
             params: {
               userId: postedBy.id,
-              fullname: postedBy.fullname
+              fullname: postedBy.full_name
             }
           }"
           class="other-recipes-link"
-          > -->
-          {{ postedBy }}
-        <!-- </router-link> -->
+          >
+          {{ postedBy.name }}
+        </router-link>
       </figcaption>
     </figure>
-    <!-- <div class="other-recipes">
+    <div class="other-recipes">
       <router-link
         :to="{
           name: 'profile',
           params: {
-            userId: postedBy,
-            fullname: postedBy.fullname
+            userId: postedBy.id,
+            fullname: postedBy.full_name
           }
         }"
         class="other-recipes-link"
       >
-        {{ userRecipes }} 
+        {{ postedBy.recipes.length }} 
         Posted <br />Recipes
       </router-link>
-    </div> -->
+    </div>
   </v-card>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 export default {
   name: "posted-by",
   props: {
@@ -50,7 +50,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ recipeList: "recipes/recipeList" }),
+    // ...mapGetters({ recipeList: "recipes/recipeList" }),
     userRecipes() {
       let recipes;
       if (this.recipeList) {

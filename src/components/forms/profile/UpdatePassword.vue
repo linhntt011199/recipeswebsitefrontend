@@ -15,7 +15,7 @@
         <form
           class="change-pwd-form"
           novalidate="false"
-          @submit.prevent="submitEmail"
+          @submit.prevent="submitPassword"
         >
           <v-text-field
             v-model.trim="password"
@@ -56,6 +56,7 @@
             </v-btn>
 
             <v-btn
+              type="submit"
               color="#04b4d4"
               :disabled="isLoading"
               :loading="isLoading"
@@ -69,8 +70,9 @@
       </v-card>
     </v-dialog>
     <v-snackbar v-model="snackbar">
-      Check your email for the password reset link
-      <v-btn color="#dd2c00" text @click="snackbar = false">
+      <!-- Check your email for the password reset link -->
+      Password changed successfully
+      <v-btn color="#00dbba" text @click="snackbar = false">
         Close
       </v-btn>
     </v-snackbar>
@@ -142,18 +144,28 @@ export default {
     //   updateUserPassword: "users/updateUserPassword"
     // }),
     async submitPassword() {
-      if (this.password === this.passwordConfirm) {
+      if (this.password === this.confirmPassword) {
         if (this.isAuthenticated) {
           this.isLoading = true;
+          const formData = new FormData();
+          formData.append('password', this.password);
+          formData.append('password_confirmation', this.password);
+          const url = "http://localhost:3000/api/v1/users/" + this.currentUser.id;
+          const config = { headers: {
+            Authorization: this.$store.getters.getToken,
+          } };
           try {
-            await axios.patch("http://localhost:3000/api/v1/users/" + this.currentUser.id, {
-              password: this.password,
-              password_confirmation: this.password,
+            await axios.patch(url, formData, config)
+            .then(() => {
+              this.dialog = false;
+              this.error = null;
+              this.snackbar = true;
+              this.isLoading = false;
             })
-            this.dialog = false;
-            this.error = null;
-            this.snackbar = true;
-            this.isLoading = false;
+            .catch(error => {
+              this.error = error;
+              this.isLoading = false;
+            });
           } catch (error) {
             this.error = error;
             this.isLoading = false;

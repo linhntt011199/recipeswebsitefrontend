@@ -13,7 +13,7 @@
               <div class="profile-info">
                 <img
                   :src="
-                    userById.image || require('@/assets/images/user.png')
+                    userById.avatar || require('@/assets/images/user.png')
                   "
                   :alt="userById.full_name"
                   class="profile-image"
@@ -31,8 +31,8 @@
                   ></span>
                   <v-dialog v-model="dialog" max-width="440">
                     <edit-profile-form
-                      :current-user="this.currentUser"
-                      :close-dialog="this.closeDialog"
+                      :current-user="userById"
+                      :close-dialog="closeDialog"
                     />
                   </v-dialog>
                   <v-tooltip
@@ -133,6 +133,7 @@ export default {
   data() {
     return {
       userId: this.$route.params.userId,
+      userById: null,
       profileImage: null,
       dialog: false,
       isFollowing: false,
@@ -166,6 +167,7 @@ export default {
           this.error = null;
           this.isLoading = false;
           this.userById = response.data;
+          if (response.data.avatar) this.userById.avatar = 'http://localhost:3000' + response.data.avatar;
         });
       } catch (error) {
         this.error = error;
@@ -220,6 +222,7 @@ export default {
         this.error = null;
         this.isLoading = false;
         this.userById = response.data;
+        if (response.data.avatar) this.userById.avatar = 'http://localhost:3000' + response.data.avatar;
       });
     } catch (error) {
       this.error = error;
