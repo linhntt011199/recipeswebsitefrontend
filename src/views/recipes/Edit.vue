@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
+import axios from "axios";
 // import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import RecipeForm from "@/components/forms/recipe";
 export default {
@@ -27,7 +28,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ recipe: "recipes/recipe" }),
+    // ...mapGetters({ recipe: "recipes/recipe" }),
     breadcrumbLinks() {
       return [
         {
@@ -35,12 +36,12 @@ export default {
           path: "/recipes"
         },
         {
-          name: this.recipe.recipeType[0],
-          path: `/recipes/${this.recipe.recipeType[0]}`
+          name: this.recipe.recipeType.replace(/["[\] ]/g, '').split(',')[0],
+          path: `/recipes/${this.recipe.recipeType.replace(/["[\] ]/g, '').split(',')[0]}`
         },
         {
-          name: this.recipe.name,
-          path: `/recipes/${this.recipe.recipeType[0]}/${this.recipe.id}`
+          name: this.recipe.title,
+          path: `/recipes/${this.recipe.recipeType.replace(/["[\] ]/g, '').split(',')[0]}/${this.recipe.id}`
         },
         {
           name: "Edit Recipe",
@@ -52,6 +53,25 @@ export default {
   watch: {
     "$route.params.recipeId"(id) {
       this.recipeId = id;
+    }
+  },
+  async created() {
+    if (!this.recipe || this.recipe.id !== this.recipeId) {
+      this.isLoading = true;
+      const url = "http://localhost:3000/api/v1/recipes/" + this.recipeId;
+      try {
+        await axios.get(url)
+        .then(response => {
+          this.isLoading = false;
+          this.recipe = response.data;
+          this.recipe.ingredients = this.recipe.ingredients.replace(/["[\]]/g, '').split(',')
+          this.recipe.instructions = this.recipe.instructions.replace(/["[\]]/g, '').split(',')
+        })
+        .catch(e => e);
+      } catch (error) {
+        this.error = error;
+        this.isLoading = false;
+      }
     }
   }
 };

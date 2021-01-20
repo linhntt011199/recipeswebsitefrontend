@@ -1,7 +1,7 @@
 <template>
   <article class="recipe">
     <router-link
-      :to="generateRecipeLink(recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' '), recipe.id)"
+      :to="generateRecipeLink(recipe.recipeType, recipe.id)"
       class="recipe-link"
     >
       <v-img
@@ -69,6 +69,7 @@ export default {
 
   methods: {
     generateRecipeLink(recipeTypes, recipeId) {
+      recipeTypes = recipeTypes.replace(/["[\] ]/g, '').split(',');
       const index = Math.floor(Math.random() * recipeTypes.length);
 
       const recipeType = encodeURI(recipeTypes[index]);

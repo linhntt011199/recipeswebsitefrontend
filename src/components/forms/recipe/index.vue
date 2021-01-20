@@ -322,7 +322,7 @@ export default {
         for(var pair of formData.entries()) {
           console.log(pair[0]+ ', '+ pair[1]); 
         }
-        console.log(formData);
+        // console.log(formData);
         this.isLoading = true;
         const url = "http://localhost:3000/api/v1/recipes"
         const config = { headers: {
@@ -334,6 +334,7 @@ export default {
             console.log(response)
             this.isLoading = false;
             this.$router.push('/recipes');
+            // this.$router.push(`/recipes/${recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0]}/${recipe.id}`)
           })
           .catch(errors => {
             this.isLoading = false;

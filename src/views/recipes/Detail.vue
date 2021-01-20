@@ -13,6 +13,7 @@
           {{ recipe.title }}
           <span v-if="currentUser && currentUser.id === recipe.user_id">
             <router-link :to="`${fullPath}/edit`">
+              <!-- <edit-recipe-page :recipe="recipe" /> -->
               <i class="far fa-edit recipe-edit" aria-label="Edit recipe"></i>
             </router-link>
             <delete-recipe :recipe-name="recipe.title" />
@@ -115,8 +116,8 @@ export default {
           path: "/recipes"
         },
         {
-          name: this.recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0],
-          path: `/recipes/${this.recipe.recipeType.replace(/[^a-zA-Z ]/g, '').split(' ')[0]}`
+          name: this.recipe.recipeType.replace(/["[\] ]/g, '').split(',')[0],
+          path: `/recipes/${this.recipe.recipeType.replace(/["[\] ]/g, '').split(',')[0]}`
         },
         {
           name: this.recipe.title,
