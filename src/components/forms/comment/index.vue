@@ -90,6 +90,7 @@ export default {
           await axios.post(url, comment, config)
           .then(() => {
             this.clearForm();
+            this.error = null;
             this.isLoading = false;
           })
           .catch(error => {
@@ -101,6 +102,7 @@ export default {
           this.isLoading = false;
         }
       }
+      if (this.error==null) location.reload();
     }
   }
 };
