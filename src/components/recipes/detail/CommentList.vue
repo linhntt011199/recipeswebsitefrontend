@@ -1,6 +1,6 @@
 <template>
   <section class="comments">
-    <div v-if="commentList.length === 0">Be the first to comment on recipe</div>
+    <div v-if="commentList.length === 0">Be the first to comment on this recipe</div>
     <template v-else v-for="comment in commentList">
       <comment :comment="comment" :key="comment.id" />
     </template>

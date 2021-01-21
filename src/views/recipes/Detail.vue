@@ -50,8 +50,8 @@
         <div class="comments-and-similar">
           <div class="comments">
             <h3 class="comments-title">Comments</h3>
-            <comment-form />
-            <comment-list :comment-list="recipe.comments" />
+            <comment-form :recipe="this.recipe" />
+            <comment-list :comment-list="comments" />
           </div>
           <div class="similar-recipes">
             <similar-recipes />
@@ -96,6 +96,7 @@ export default {
     return {
       recipeId: this.$route.params.recipeId,
       fullPath: this.$route.fullPath,
+      comments: [],
       postedBy: null,
       isLoading: false,
       error: null
@@ -159,6 +160,11 @@ export default {
         .then(response => {
           this.postedBy = response.data;
           if (response.data.avatar) this.postedBy.avatar = 'http://localhost:3000' + response.data.avatar;
+        })
+        .catch(e => e);
+        await axios.get("http://localhost:3000/api/v1/comments/commentList/" + this.recipeId)
+        .then(response => {
+          this.comments = response.data;
         })
         .catch(e => e);
         this.isLoading = false;

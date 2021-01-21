@@ -5,17 +5,17 @@
         :to="{
           name: 'profile',
           params: {
-            userId: comment.commentedBy.id,
-            fullname: comment.commentedBy.fullname
+            userId: comment.user.id,
+            fullname: comment.user.full_name
           }
         }"
         class="added-by-link"
       >
         <img
           :src="
-            comment.commentedBy.imageUrl || require('@/assets/images/user.png')
+            this.chooseAvatar
           "
-          :alt="comment.commentedBy.fullname"
+          :alt="comment.user.name"
           class="added-by-image"
         />
       </router-link>
@@ -24,18 +24,18 @@
           :to="{
             name: 'profile',
             params: {
-              userId: comment.commentedBy.id,
-              fullname: comment.commentedBy.fullname
+              userId: comment.user.id,
+              fullname: comment.user.full_name
             }
           }"
           class="added-by-name"
-          >{{ comment.commentedBy.fullname }}</router-link
+          >{{ comment.user.name }}</router-link
         >
         ·
         <span class="comment-date">{{ timeSinceRecipeAddition }}</span>
       </p>
     </div>
-    <p class="comment-body">{{ comment.commentBody }}</p>
+    <p class="comment-body" style="white-space: pre;">{{ comment.commentBody }}</p>
   </article>
 </template>
 
@@ -50,14 +50,19 @@ export default {
     }
   },
   computed: {
+    filters: {
+      moment: function (date) {
+        return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+      }
+    },
     timeSinceRecipeAddition() {
-      const formattedDate = date => new Date(date).toLocaleDateString();
-      return moment(
-        formattedDate(this.comment.commentedAt),
-        "MM/DD/YYYY"
-      ).fromNow();
-    }
-  }
+      return moment(this.comment.created_at).fromNow();
+    },
+    chooseAvatar() {
+      if (this.comment.user.avatar) return "http://localhost:3000" + this.comment.user.avatar;
+      else return require('@/assets/images/user.png');
+    },
+  },
 };
 </script>
 

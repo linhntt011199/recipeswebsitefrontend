@@ -18,7 +18,6 @@
       color="#04b4d4"
       :disabled="isLoading"
       :loading="isLoading"
-      @click="submitComment"
       >add comment</v-btn
     >
   </form>
@@ -26,6 +25,7 @@
 
 <script>
 // import { mapGetters, mapActions } from "vuex";
+import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 export default {
@@ -44,11 +44,23 @@ export default {
       error: null
     };
   },
+  props: {
+    recipe: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     // ...mapGetters({
     //   isAuthenticated: "auth/isAuthenticated",
     //   currentUser: "users/currentUser"
     // }),
+    currentUser() {
+      return this.$store.getters.getUser;
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
     commentErrors() {
       const errors = [];
       if (!this.$v.comment.$dirty) return errors;
@@ -66,18 +78,24 @@ export default {
       this.$v.$touch();
       if (this.isAuthenticated) {
         this.isLoading = true;
+        const url = "http://localhost:3000/api/v1/comments"
+        const config = { headers: {
+          Authorization: this.$store.getters.getToken,
+        }};
+        const comment = new FormData();
+        comment.append('recipe_id', this.recipe.id);
+        comment.append('user_id', this.currentUser.id);
+        comment.append('commentBody', this.comment);
         try {
-          await this.commentOnRecipe({
-            commentBody: this.comment,
-            commentedBy: {
-              id: this.currentUser.id,
-              fullname: this.currentUser.fullname
-            },
-            updatedAt: "",
-            commentedAt: new Date().toLocaleString()
+          await axios.post(url, comment, config)
+          .then(() => {
+            this.clearForm();
+            this.isLoading = false;
+          })
+          .catch(error => {
+            this.error = error;
+            this.isLoading = false;
           });
-          this.clearForm();
-          this.isLoading = false;
         } catch (error) {
           this.error = error;
           this.isLoading = false;

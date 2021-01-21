@@ -71,7 +71,6 @@ export default {
         .then((response) => {
           this.currentUser = response.data;
           if (response.data.avatar) this.currentUser.avatar = 'http://localhost:3000' + response.data.avatar;
-          console.log(this.currentUser);
         })
         .catch(error => {
           this.error = error;
