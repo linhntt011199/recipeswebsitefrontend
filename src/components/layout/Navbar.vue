@@ -48,7 +48,7 @@ export default {
   name: "app-navbar",
   data() {
     return {
-      currentUser: {},
+      currentUser: this.getCurrentUser || {},
       error: null,
     };
   },
@@ -62,6 +62,9 @@ export default {
     userId() {
       return this.$store.getters.getUserId;
     },
+    getCurrentUser() {
+      return this.$store.getters.getUser;
+    }
   },
   async created() {
     if (this.isAuthenticated) {

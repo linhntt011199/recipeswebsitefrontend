@@ -4,10 +4,17 @@
       Update Your Recipe
     </h2>
     <v-card class="mx-auto edit-recipe-card">
-      <!-- <h2 class="edit-recipe-title edit-recipe-title--mobile">
+      <h2 class="edit-recipe-title edit-recipe-title--mobile">
         Update Your Recipe
-      </h2> -->
-      <recipe-form action-type="edit-recipe" :recipe-to-edit="recipe" />
+        {{ this.recipe.title }}
+      </h2>
+      <recipe-form action-type="edit-recipe" :recipe-to-edit="this.recipe" />
+      <router-link :to="`${fullPath}`">
+        <br/>
+        <v-btn color="#04b4d4" outlined @click="closeDialog" class="action-btn">
+          Cancel
+        </v-btn>
+      </router-link>
     </v-card>
   </div>
 </template>
@@ -25,7 +32,9 @@ export default {
   },
   data() {
     return {
-      recipeId: this.$route.params.recipeId
+      recipeId: this.$route.params.recipeId,
+      recipe: null,
+      fullPath: this.$route.fullPath.replace("/edit", ''),
     };
   },
   computed: {

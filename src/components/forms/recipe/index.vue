@@ -168,18 +168,18 @@ export default {
     return {
       newRecipe: {},
       updatedFields: {},
-      title: this.actionType !== "add-recipe" ? this.recipeToEdit.name : "",
+      title: this.actionType !== "add-recipe" ? this.recipeToEdit.title : "",
       image: null,
       description:
         this.actionType !== "add-recipe" ? this.recipeToEdit.description : "",
       servings:
-        this.actionType !== "add-recipe" ? this.recipeToEdit.servings : 0,
+        this.actionType !== "add-recipe" ? this.recipeToEdit.serving : 0,
       prepTime:
-        this.actionType !== "add-recipe" ? this.recipeToEdit.prepTime : 0,
+        this.actionType !== "add-recipe" ? this.recipeToEdit.preparation_time : 0,
       cookingTime:
-        this.actionType !== "add-recipe" ? this.recipeToEdit.cookingTime : 0,
+        this.actionType !== "add-recipe" ? this.recipeToEdit.cooking_time : 0,
       isVegetarian:
-        this.actionType !== "add-recipe" ? this.recipeIsVegetarian : false,
+        this.actionType !== "add-recipe" ? this.recipeToEdit.vegetarian : false,
       isLoading: false,
       error: null
     };

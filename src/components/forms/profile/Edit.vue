@@ -169,7 +169,8 @@ export default {
   created() {
     // this.name = this.currentUser.name;
     this.fullname = this.currentUser.full_name;
-    this.imageUrl = "http://localhost:3000" + this.profilePhoto;
+    this.imageUrl = this.profilePhoto;
+    console.log(this.imageUrl);
   }
 };
 </script>

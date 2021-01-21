@@ -101,17 +101,17 @@ export default {
   methods: {
     // navigateTo() {
     //   this.$router.push({
-    //     name: "profile",
+    //     name: 'profile',
     //     params: {
-    //       userId: this.id,
-    //       name: this.name,
+    //       userId: this.currentUser.id,
+    //       fullname: this.currentUser.full_name,
     //       // recipes
     //     }
     //   });
     // },
     logout() {
       this.$store.commit('logout');
-      this.$router.push('/');
+      location.reload();
     }
   }
 };
